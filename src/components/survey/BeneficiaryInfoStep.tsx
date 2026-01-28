@@ -102,15 +102,16 @@ export function BeneficiaryInfoStep() {
         />
       )}
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-end">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <DateInput
           label="Birthdate"
           value={formData.birthdate}
           onChange={(v) => updateFormData({ birthdate: v })}
           max={today}
           required
+          containerClassName="sm:mb-0 sm:flex-1 sm:min-w-0"
         />
-        <div className="mb-4 sm:mb-0 sm:w-32 sm:justify-self-end">
+        <div className="mb-4 sm:mb-0 sm:w-24">
           <label className="mb-2 block text-base font-medium text-gray-700 dark:text-gray-300">
             Age
           </label>
@@ -118,7 +119,7 @@ export function BeneficiaryInfoStep() {
             type="number"
             value={formData.age || ''}
             readOnly
-            className="h-14 w-full border border-gray-300 bg-gray-100 px-4 py-3 text-base leading-6 text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 sm:text-lg"
+            className="h-14 w-full appearance-none border border-gray-300 bg-gray-100 px-4 py-3 text-base leading-6 text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 sm:text-lg"
           />
         </div>
       </div>
