@@ -9,6 +9,9 @@ import {
 } from './surveyStorage'
 import { toSnakeCase, type SurveyFormData } from './types'
 
+const LAST_SERVER_SYNC_KEY = 'ect_last_server_sync_at'
+const SERVER_SYNC_PAGE_SIZE = 100
+
 interface ApiSurveyUpload {
   type: 'photo_with_id' | 'respondent_signature' | 'interviewer_signature'
   url: string
@@ -86,6 +89,14 @@ function extractServerIdFromError(error: unknown): number | undefined {
     }
   }
   return undefined
+}
+
+function getLastServerSyncAt(): string | null {
+  return localStorage.getItem(LAST_SERVER_SYNC_KEY)
+}
+
+function setLastServerSyncAt(value: string): void {
+  localStorage.setItem(LAST_SERVER_SYNC_KEY, value)
 }
 
 function toStringValue(value: unknown): string {
@@ -349,17 +360,28 @@ export async function syncPendingSurveys(): Promise<{
   return { synced, failed }
 }
 
-async function fetchSurveyPage(page: number): Promise<ApiSurveyCollection> {
-  const response = await api.get<ApiSurveyCollection>(`/v1/surveys?page=${page}`)
+async function fetchSurveyPage(
+  page: number,
+  updatedSince?: string
+): Promise<ApiSurveyCollection> {
+  const response = await api.get<ApiSurveyCollection>('/v1/surveys', {
+    params: {
+      page,
+      per_page: SERVER_SYNC_PAGE_SIZE,
+      updated_since: updatedSince,
+    },
+  })
   return response.data
 }
 
-export async function fetchAllServerSurveys(): Promise<ApiSurvey[]> {
+export async function fetchAllServerSurveys(
+  updatedSince?: string
+): Promise<ApiSurvey[]> {
   const surveys: ApiSurvey[] = []
   let page = 1
 
   while (true) {
-    const response = await fetchSurveyPage(page)
+    const response = await fetchSurveyPage(page, updatedSince)
     surveys.push(...response.data)
 
     const lastPage = response.meta?.last_page ?? page
@@ -373,7 +395,8 @@ export async function fetchAllServerSurveys(): Promise<ApiSurvey[]> {
 }
 
 export async function syncServerSurveys(): Promise<number> {
-  const serverSurveys = await fetchAllServerSurveys()
+  const lastSyncAt = getLastServerSyncAt()
+  const serverSurveys = await fetchAllServerSurveys(lastSyncAt || undefined)
   if (serverSurveys.length === 0) {
     return 0
   }
@@ -400,6 +423,17 @@ export async function syncServerSurveys(): Promise<number> {
 
   if (upserts.length > 0) {
     await db.surveys.bulkPut(upserts)
+  }
+
+  const latestUpdatedAt = serverSurveys
+    .map((survey) => survey.updated_at)
+    .filter((value): value is string => typeof value === 'string' && value.trim() !== '')
+    .map((value) => new Date(value))
+    .filter((value) => !Number.isNaN(value.valueOf()))
+    .sort((a, b) => b.valueOf() - a.valueOf())[0]
+
+  if (latestUpdatedAt) {
+    setLastServerSyncAt(latestUpdatedAt.toISOString())
   }
 
   return upserts.length
