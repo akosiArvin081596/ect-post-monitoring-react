@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, type Location } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
   listAllSurveys,
@@ -115,7 +115,7 @@ export function Dashboard() {
           <path d="M11 5a1 1 0 1 1 2 0v6h6a1 1 0 1 1 0 2h-6v6a1 1 0 1 1-2 0v-6H5a1 1 0 1 1 0-2h6V5Z" />
         </svg>
       ),
-      isActive: (location) => location.pathname === '/survey/new',
+      isActive: (location: Location) => location.pathname === '/survey/new',
     },
   ]
 

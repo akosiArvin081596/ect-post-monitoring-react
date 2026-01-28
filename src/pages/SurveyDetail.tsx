@@ -107,21 +107,7 @@ export function SurveyDetail() {
 
   const variance = formData.amountReceived - totalUtilization
 
-  const getStatusBadge = () => {
-    const styles = {
-      draft: 'bg-slate-100 text-slate-700',
-      pending: 'bg-amber-100 text-amber-700',
-      synced: 'bg-emerald-100 text-emerald-700',
-      error: 'bg-red-100 text-red-700',
-    }
-    return (
-      <span className={`rounded-full px-4 py-1.5 text-base font-medium ${styles[survey.status]}`}>
-        {survey.status}
-      </span>
-    )
-  }
-
-    return (
+  return (
       <AppShell title="Survey Details" backTo="/" showNav={false}>
         {survey.status === 'error' && survey.errorMessage && (
           <div className="mb-5 rounded-2xl bg-red-50 p-4 text-base text-red-700 shadow-sm dark:bg-red-900/20 dark:text-red-200">
