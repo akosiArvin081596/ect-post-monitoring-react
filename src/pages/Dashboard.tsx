@@ -7,7 +7,7 @@ import {
   getDraftSurveysCount,
   getSyncedSurveysCount,
 } from '../lib/surveyStorage'
-import { syncPendingSurveys } from '../lib/sync'
+import { syncPendingSurveys, syncServerSurveys } from '../lib/sync'
 import { cacheAddresses, isAddressCacheEmpty } from '../lib/addressCache'
 import { useOnlineStatus } from '../hooks/useOnlineStatus'
 import { type OfflineSurvey } from '../lib/db'
@@ -25,7 +25,14 @@ export function Dashboard() {
   const [isSyncing, setIsSyncing] = useState(false)
   const [isLoadingAddresses, setIsLoadingAddresses] = useState(false)
 
-  const refreshData = async () => {
+  const refreshData = async (options?: { includeServer?: boolean }) => {
+    if (options?.includeServer && isOnline) {
+      try {
+        await syncServerSurveys()
+      } catch (error) {
+        console.error('Failed to sync server surveys:', error)
+      }
+    }
     const [allSurveys, pending, drafts, synced] = await Promise.all([
       listAllSurveys(),
       getPendingSurveysCount(),
@@ -39,7 +46,7 @@ export function Dashboard() {
   }
 
   useEffect(() => {
-    refreshData()
+    refreshData({ includeServer: true })
 
     // Cache addresses on first load if online
     const initAddresses = async () => {
@@ -61,7 +68,7 @@ export function Dashboard() {
     setIsSyncing(true)
     try {
       await syncPendingSurveys()
-      await refreshData()
+      await refreshData({ includeServer: true })
     } finally {
       setIsSyncing(false)
     }
