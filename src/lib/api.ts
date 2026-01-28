@@ -25,8 +25,12 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem(TOKEN_KEY)
-      window.location.href = '/login'
+      // Don't redirect for login endpoint - 401 is expected for invalid credentials
+      const isLoginRequest = error.config?.url?.includes('/login')
+      if (!isLoginRequest) {
+        localStorage.removeItem(TOKEN_KEY)
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(error)
   }
