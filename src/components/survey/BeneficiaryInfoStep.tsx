@@ -102,7 +102,7 @@ export function BeneficiaryInfoStep() {
         />
       )}
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-end">
         <DateInput
           label="Birthdate"
           value={formData.birthdate}
@@ -110,7 +110,7 @@ export function BeneficiaryInfoStep() {
           max={today}
           required
         />
-        <div className="mb-4">
+        <div className="mb-4 sm:mb-0 sm:w-32 sm:justify-self-end">
           <label className="mb-2 block text-base font-medium text-gray-700 dark:text-gray-300">
             Age
           </label>
