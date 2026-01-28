@@ -15,7 +15,7 @@ import {
 import {
   createSurvey,
   updateSurvey,
-  getSurveyFormData,
+  getSurvey,
   markSurveyAsPending,
 } from '../lib/surveyStorage'
 
@@ -64,9 +64,12 @@ export function SurveyWizardProvider({ children, existingUuid }: ProviderProps) 
   useEffect(() => {
     const load = async () => {
       if (existingUuid) {
-        const existing = await getSurveyFormData(existingUuid)
+        const existing = await getSurvey(existingUuid)
         if (existing) {
-          setFormData(existing)
+          setFormData(JSON.parse(existing.formData) as SurveyFormData)
+          setPhotoWithId(existing.photoWithIdBase64)
+          setRespondentSignature(existing.respondentSignatureBase64)
+          setInterviewerSignature(existing.interviewerSignatureBase64)
         }
       } else {
         await createSurvey(clientUuid, formData)
@@ -165,11 +168,16 @@ export function SurveyWizardProvider({ children, existingUuid }: ProviderProps) 
         interviewerSignatureBase64: interviewerSignature,
       })
       await markSurveyAsPending(clientUuid)
-      navigate('/', { replace: true })
+      // Navigate to survey detail if editing, home if new
+      if (existingUuid) {
+        navigate(`/survey/${clientUuid}`, { replace: true })
+      } else {
+        navigate('/', { replace: true })
+      }
     } finally {
       setIsSubmitting(false)
     }
-  }, [clientUuid, formData, photoWithId, respondentSignature, interviewerSignature, navigate])
+  }, [clientUuid, formData, photoWithId, respondentSignature, interviewerSignature, navigate, existingUuid])
 
   return (
     <SurveyWizardContext.Provider

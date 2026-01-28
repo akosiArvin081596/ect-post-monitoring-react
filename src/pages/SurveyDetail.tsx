@@ -112,15 +112,6 @@ export function SurveyDetail() {
         {survey.status === 'error' && survey.errorMessage && (
           <div className="mb-5 rounded border border-red-200 bg-red-50 p-4 text-base text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-200">
             <p>Sync Error: {survey.errorMessage}</p>
-            {isOnline && (
-              <button
-                onClick={handleRetry}
-                disabled={isSyncing}
-                className="mt-3 text-base font-semibold text-red-700 hover:text-red-800 dark:text-red-200"
-              >
-                {isSyncing ? 'Retrying...' : 'Retry Sync'}
-              </button>
-            )}
           </div>
         )}
 
@@ -171,6 +162,14 @@ export function SurveyDetail() {
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            {(survey.status === 'draft' || survey.status === 'error') && (
+              <Link
+                to={`/survey/${survey.clientUuid}/edit`}
+                className="flex-1 rounded border border-blue-600 bg-white px-5 py-4 text-center text-base font-semibold text-blue-600 hover:bg-blue-50 dark:bg-transparent dark:hover:bg-blue-900/20"
+              >
+                Edit Survey
+              </Link>
+            )}
             {survey.status === 'draft' && (
               <>
                 <button
@@ -196,6 +195,25 @@ export function SurveyDetail() {
               >
                 {isSyncing ? 'Syncing...' : 'Sync Now'}
               </button>
+            )}
+            {survey.status === 'error' && (
+              <>
+                {isOnline && (
+                  <button
+                    onClick={handleRetry}
+                    disabled={isSyncing}
+                    className="flex-1 rounded bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    {isSyncing ? 'Retrying...' : 'Retry Sync'}
+                  </button>
+                )}
+                <button
+                  onClick={handleDelete}
+                  className="rounded bg-red-600 px-5 py-4 text-base font-semibold text-white hover:bg-red-700"
+                >
+                  Delete
+                </button>
+              </>
             )}
           </div>
         </div>

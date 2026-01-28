@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { SurveyWizardProvider, useSurveyWizard } from '../contexts/SurveyWizardContext'
 import { StepIndicator } from '../components/ui/StepIndicator'
 import { ConsentStep } from '../components/survey/ConsentStep'
@@ -20,9 +20,18 @@ const stepLabels = [
   'Interviewer',
 ]
 
-function WizardContent() {
+function WizardContent({ isEditing }: { isEditing: boolean }) {
   const navigate = useNavigate()
+  const { id } = useParams<{ id: string }>()
   const { currentStep, totalSteps } = useSurveyWizard()
+
+  const handleCancel = () => {
+    if (isEditing && id) {
+      navigate(`/survey/${id}`)
+    } else {
+      navigate('/')
+    }
+  }
 
   const renderStep = () => {
     switch (currentStep) {
@@ -47,10 +56,10 @@ function WizardContent() {
 
   return (
     <AppShell
-      title="ECT Monitoring Survey"
+      title={isEditing ? 'Edit Survey' : 'ECT Monitoring Survey'}
       action={
         <button
-          onClick={() => navigate('/')}
+          onClick={handleCancel}
           className="rounded border border-white/30 px-4 py-2 text-base font-semibold text-white hover:bg-white/15"
         >
           Cancel
@@ -72,9 +81,12 @@ function WizardContent() {
 }
 
 export function SurveyWizard() {
+  const { id } = useParams<{ id: string }>()
+  const isEditing = !!id
+
   return (
-    <SurveyWizardProvider>
-      <WizardContent />
+    <SurveyWizardProvider existingUuid={id}>
+      <WizardContent isEditing={isEditing} />
     </SurveyWizardProvider>
   )
 }

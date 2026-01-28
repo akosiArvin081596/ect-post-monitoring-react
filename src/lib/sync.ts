@@ -1,3 +1,4 @@
+import { type AxiosError } from 'axios'
 import { db, type SyncQueueItem } from './db'
 import { api } from './api'
 import {
@@ -7,6 +8,20 @@ import {
   markSurveyAsError,
 } from './surveyStorage'
 import { toSnakeCase, type SurveyFormData } from './types'
+
+function extractServerIdFromError(error: unknown): number | undefined {
+  if (error && typeof error === 'object' && 'config' in error) {
+    const axiosError = error as AxiosError
+    const url = axiosError.config?.url
+    if (url) {
+      const match = url.match(/\/v1\/surveys\/(\d+)\//)
+      if (match) {
+        return parseInt(match[1], 10)
+      }
+    }
+  }
+  return undefined
+}
 
 export async function enqueueRequest(
   url: string,
@@ -91,15 +106,20 @@ export async function syncPendingSurveys(): Promise<{
   let failed = 0
 
   for (const survey of pendingSurveys) {
-    try {
-      const formData = JSON.parse(survey.formData) as SurveyFormData
-      const payload = {
-        client_uuid: survey.clientUuid,
-        ...toSnakeCase(formData),
-      }
+    let serverId = survey.serverId
 
-      const response = await api.post<{ data: { id: number } }>('/v1/surveys', payload)
-      const serverId = response.data.data.id
+    try {
+      // Only create survey if not already on server
+      if (!serverId) {
+        const formData = JSON.parse(survey.formData) as SurveyFormData
+        const payload = {
+          client_uuid: survey.clientUuid,
+          ...toSnakeCase(formData),
+        }
+
+        const response = await api.post<{ data: { id: number } }>('/v1/surveys', payload)
+        serverId = response.data.data.id
+      }
 
       // Upload files if present
       if (survey.photoWithIdBase64) {
@@ -116,7 +136,9 @@ export async function syncPendingSurveys(): Promise<{
       synced++
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error'
-      await markSurveyAsError(survey.clientUuid, message)
+      // Try to extract serverId from error URL if not already set
+      const errorServerId = serverId ?? extractServerIdFromError(error)
+      await markSurveyAsError(survey.clientUuid, message, errorServerId)
       failed++
     }
   }
@@ -124,21 +146,34 @@ export async function syncPendingSurveys(): Promise<{
   return { synced, failed }
 }
 
+export async function recoverErrorSurvey(clientUuid: string, serverId: number): Promise<void> {
+  const survey = await getSurvey(clientUuid)
+  if (!survey || survey.status !== 'error') {
+    throw new Error('Survey not found or not in error status')
+  }
+  await markSurveyAsError(clientUuid, survey.errorMessage || '', serverId)
+}
+
 export async function syncSingleSurvey(clientUuid: string): Promise<boolean> {
   const survey = await getSurvey(clientUuid)
-  if (!survey || survey.status !== 'pending') {
+  if (!survey || (survey.status !== 'pending' && survey.status !== 'error')) {
     return false
   }
 
-  try {
-    const formData = JSON.parse(survey.formData) as SurveyFormData
-    const payload = {
-      client_uuid: survey.clientUuid,
-      ...toSnakeCase(formData),
-    }
+  let serverId = survey.serverId
 
-    const response = await api.post<{ data: { id: number } }>('/v1/surveys', payload)
-    const serverId = response.data.data.id
+  try {
+    // Only create survey if not already on server
+    if (!serverId) {
+      const formData = JSON.parse(survey.formData) as SurveyFormData
+      const payload = {
+        client_uuid: survey.clientUuid,
+        ...toSnakeCase(formData),
+      }
+
+      const response = await api.post<{ data: { id: number } }>('/v1/surveys', payload)
+      serverId = response.data.data.id
+    }
 
     if (survey.photoWithIdBase64) {
       await uploadFile(serverId, survey.photoWithIdBase64, 'photo_with_id')
@@ -154,7 +189,9 @@ export async function syncSingleSurvey(clientUuid: string): Promise<boolean> {
     return true
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'
-    await markSurveyAsError(survey.clientUuid, message)
+    // Try to extract serverId from error URL if not already set
+    const errorServerId = serverId ?? extractServerIdFromError(error)
+    await markSurveyAsError(survey.clientUuid, message, errorServerId)
     return false
   }
 }

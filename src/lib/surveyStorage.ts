@@ -108,7 +108,15 @@ export async function markSurveyAsSynced(
 
 export async function markSurveyAsError(
   clientUuid: string,
-  errorMessage: string
+  errorMessage: string,
+  serverId?: number
 ): Promise<void> {
-  await updateSurvey(clientUuid, { status: 'error', errorMessage })
+  const updates: Partial<{ status: SurveyStatus; errorMessage: string; serverId: number }> = {
+    status: 'error',
+    errorMessage,
+  }
+  if (serverId !== undefined) {
+    updates.serverId = serverId
+  }
+  await updateSurvey(clientUuid, updates)
 }

@@ -38,6 +38,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/survey/:id/edit"
+              element={
+                <ProtectedRoute>
+                  <SurveyWizard />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
           <NetworkStatus />
         </div>
