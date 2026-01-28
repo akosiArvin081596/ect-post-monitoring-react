@@ -118,7 +118,7 @@ export function BeneficiaryInfoStep() {
             type="number"
             value={formData.age || ''}
             readOnly
-            className="h-14 w-full rounded-lg border border-gray-300 bg-gray-100 px-4 py-3 text-base leading-6 text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 sm:text-lg"
+            className="h-14 w-full rounded border border-gray-300 bg-gray-100 px-4 py-3 text-base leading-6 text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 sm:text-lg"
           />
         </div>
       </div>
@@ -184,7 +184,7 @@ export function BeneficiaryInfoStep() {
         <button
           type="button"
           onClick={prevStep}
-          className="flex-1 rounded-lg border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+          className="flex-1 rounded border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
         >
           Previous
         </button>
@@ -192,7 +192,7 @@ export function BeneficiaryInfoStep() {
           type="button"
           onClick={nextStep}
           disabled={!canProceed}
-          className="flex-1 rounded-lg bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+          className="flex-1 rounded bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
         >
           Next
         </button>

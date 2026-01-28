@@ -15,7 +15,7 @@ export function StepIndicator({
         {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step) => (
           <div key={step} className="flex flex-1 items-center">
             <div
-              className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-base font-medium sm:h-11 sm:w-11 sm:text-lg ${
+              className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded text-base font-medium sm:h-11 sm:w-11 sm:text-lg ${
                 step < currentStep
                   ? 'bg-blue-600 text-white'
                   : step === currentStep

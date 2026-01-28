@@ -13,7 +13,7 @@ export function Home() {
           ? 'Connected - data syncs automatically.'
           : 'Offline - data will sync when reconnected.'}
       </p>
-      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow dark:bg-gray-800">
+      <div className="w-full max-w-md rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
         <p className="text-center text-gray-500 dark:text-gray-400">
           Your app is ready. Start building your features here.
         </p>

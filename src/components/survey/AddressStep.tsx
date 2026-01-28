@@ -111,7 +111,7 @@ export function AddressStep() {
         onChange={(v) => updateFormData({ sitioPurokStreet: v })}
       />
 
-      <div className="rounded-lg border border-gray-200 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-800">
+      <div className="rounded border border-gray-200 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-800">
         <div className="mb-4 flex items-center justify-between gap-3">
           <label className="text-base font-medium text-gray-700 dark:text-gray-300">
             GPS Coordinates
@@ -120,7 +120,7 @@ export function AddressStep() {
             type="button"
             onClick={captureGPS}
             disabled={isLoadingGPS}
-            className="rounded-lg bg-gray-600 px-4 py-2.5 text-base font-semibold text-white hover:bg-gray-700 disabled:opacity-50"
+            className="rounded bg-gray-600 px-4 py-2.5 text-base font-semibold text-white hover:bg-gray-700 disabled:opacity-50"
           >
             {isLoadingGPS ? 'Getting location...' : 'Capture GPS'}
           </button>
@@ -143,7 +143,7 @@ export function AddressStep() {
         <button
           type="button"
           onClick={prevStep}
-          className="flex-1 rounded-lg border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+          className="flex-1 rounded border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
         >
           Previous
         </button>
@@ -151,7 +151,7 @@ export function AddressStep() {
           type="button"
           onClick={nextStep}
           disabled={!canProceed}
-          className="flex-1 rounded-lg bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+          className="flex-1 rounded bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
         >
           Next
         </button>

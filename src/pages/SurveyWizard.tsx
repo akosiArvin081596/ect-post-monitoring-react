@@ -51,7 +51,7 @@ function WizardContent() {
       action={
         <button
           onClick={() => navigate('/')}
-          className="rounded-full border border-white/30 px-4 py-2 text-base font-semibold text-white hover:bg-white/15"
+          className="rounded border border-white/30 px-4 py-2 text-base font-semibold text-white hover:bg-white/15"
         >
           Cancel
         </button>
@@ -64,7 +64,7 @@ function WizardContent() {
         labels={stepLabels}
       />
 
-      <div className="rounded-2xl bg-white p-5 shadow-sm sm:p-6 dark:bg-slate-900">
+      <div className="rounded border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-700 dark:bg-slate-900">
         {renderStep()}
       </div>
     </AppShell>

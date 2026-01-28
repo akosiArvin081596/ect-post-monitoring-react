@@ -34,14 +34,14 @@ export function AppShell({
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <div className="min-h-screen bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(59,130,246,0.18),transparent)] dark:bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(59,130,246,0.22),transparent)]">
-        <header className="sticky top-0 z-20 bg-blue-600 text-white shadow-lg dark:bg-blue-700">
+      <div className="min-h-screen">
+        <header className="sticky top-0 z-20 bg-blue-600 text-white dark:bg-blue-700">
           <div className="flex items-center justify-between px-5 py-4 sm:px-6">
             <div className="flex items-center gap-3">
               {backTo && (
                 <Link
                   to={backTo}
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white/25"
+                  className="flex h-11 w-11 items-center justify-center rounded bg-white/15 text-white transition hover:bg-white/25"
                   aria-label={backLabel}
                 >
                   <svg
@@ -75,7 +75,7 @@ export function AppShell({
         </main>
 
         {hasNav && (
-          <nav className="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-200 bg-white/95 px-6 py-3 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
+          <nav className="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-200 bg-white px-6 py-3 dark:border-slate-800 dark:bg-slate-950">
             <div className="flex items-center gap-2">
               {navItems.map((item) => {
                 const isActive = item.isActive
@@ -85,7 +85,7 @@ export function AppShell({
                   <Link
                     key={item.label}
                     to={item.to}
-                    className={`flex flex-1 flex-col items-center gap-1 rounded-xl px-3 py-2 text-base font-semibold transition ${
+                    className={`flex flex-1 flex-col items-center gap-1 rounded px-3 py-2 text-base font-semibold transition ${
                       isActive
                         ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-200'
                         : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900'

@@ -78,13 +78,13 @@ export function SurveyDetail() {
   if (!survey || !formData) {
     return (
       <AppShell title="Survey Details" backTo="/" showNav={false}>
-        <div className="rounded-2xl bg-white p-6 text-center shadow-sm dark:bg-slate-900">
+        <div className="rounded border border-slate-200 bg-white p-6 text-center dark:border-slate-700 dark:bg-slate-900">
           <p className="mb-4 text-base text-slate-600 dark:text-slate-400">
             Survey not found
           </p>
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-full bg-blue-600 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-blue-700"
+            className="inline-flex items-center justify-center rounded bg-blue-600 px-5 py-3 text-base font-semibold text-white hover:bg-blue-700"
           >
             Return to Dashboard
           </Link>
@@ -110,7 +110,7 @@ export function SurveyDetail() {
   return (
       <AppShell title="Survey Details" backTo="/" showNav={false}>
         {survey.status === 'error' && survey.errorMessage && (
-          <div className="mb-5 rounded-2xl bg-red-50 p-4 text-base text-red-700 shadow-sm dark:bg-red-900/20 dark:text-red-200">
+          <div className="mb-5 rounded border border-red-200 bg-red-50 p-4 text-base text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-200">
             <p>Sync Error: {survey.errorMessage}</p>
             {isOnline && (
               <button
@@ -124,7 +124,7 @@ export function SurveyDetail() {
           </div>
         )}
 
-        <div className="rounded-2xl bg-white p-5 shadow-sm sm:p-6 dark:bg-slate-900">
+        <div className="rounded border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-700 dark:bg-slate-900">
           <h2 className="mb-4 text-2xl font-semibold text-slate-900 dark:text-white">
             {formData.beneficiaryName || 'Unnamed Beneficiary'}
           </h2>
@@ -176,13 +176,13 @@ export function SurveyDetail() {
                 <button
                   onClick={handleSync}
                   disabled={!isOnline || isSyncing}
-                  className="flex-1 rounded-2xl bg-emerald-600 px-5 py-4 text-base font-semibold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-50"
+                  className="flex-1 rounded bg-emerald-600 px-5 py-4 text-base font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
                 >
                   {isSyncing ? 'Syncing...' : 'Submit & Sync'}
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="rounded-2xl bg-red-600 px-5 py-4 text-base font-semibold text-white shadow-sm hover:bg-red-700"
+                  className="rounded bg-red-600 px-5 py-4 text-base font-semibold text-white hover:bg-red-700"
                 >
                   Delete
                 </button>
@@ -192,7 +192,7 @@ export function SurveyDetail() {
               <button
                 onClick={handleRetry}
                 disabled={isSyncing}
-                className="flex-1 rounded-2xl bg-blue-600 px-5 py-4 text-base font-semibold text-white shadow-sm hover:bg-blue-700 disabled:opacity-50"
+                className="flex-1 rounded bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
               >
                 {isSyncing ? 'Syncing...' : 'Sync Now'}
               </button>

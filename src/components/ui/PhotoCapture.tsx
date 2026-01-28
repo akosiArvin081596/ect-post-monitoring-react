@@ -75,12 +75,12 @@ export function PhotoCapture({
           <img
             src={preview}
             alt="Preview"
-            className="h-52 w-full rounded-lg border border-gray-300 object-cover sm:h-64 dark:border-gray-600"
+            className="h-52 w-full rounded border border-gray-300 object-cover sm:h-64 dark:border-gray-600"
           />
           <button
             type="button"
             onClick={handleRemove}
-            className="absolute right-3 top-3 rounded-full bg-red-600 p-2.5 text-white shadow hover:bg-red-700"
+            className="absolute right-3 top-3 rounded bg-red-600 p-2.5 text-white hover:bg-red-700"
           >
             <svg
               className="h-6 w-6"
@@ -100,7 +100,7 @@ export function PhotoCapture({
       ) : (
         <div
           onClick={() => inputRef.current?.click()}
-          className="flex h-52 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 sm:h-64 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700"
+          className="flex h-52 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 sm:h-64 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           <svg
             className="mb-3 h-12 w-12 text-gray-400 sm:h-14 sm:w-14"

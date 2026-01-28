@@ -31,10 +31,10 @@ export function Login() {
 
   return (
     <div className="min-h-screen bg-slate-50 px-5 py-10 dark:bg-slate-950 sm:px-6">
-      <div className="min-h-screen bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(59,130,246,0.18),transparent)] dark:bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(59,130,246,0.22),transparent)]">
+      <div className="min-h-screen">
         <div className="mx-auto flex w-full max-w-xl flex-col items-center">
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded bg-blue-600 text-white">
               <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8">
                 <path d="M12 3a7 7 0 0 1 7 7v4.2c0 .8.3 1.6.9 2.2l.6.6a1 1 0 0 1-.7 1.7H4.2a1 1 0 0 1-.7-1.7l.6-.6c.6-.6.9-1.4.9-2.2V10a7 7 0 0 1 7-7Zm0 18a3 3 0 0 0 2.8-2H9.2A3 3 0 0 0 12 21Z" />
               </svg>
@@ -49,14 +49,14 @@ export function Login() {
 
           <form
             onSubmit={handleSubmit}
-            className="w-full rounded-2xl bg-white p-6 shadow-lg dark:bg-slate-900 sm:p-7"
+            className="w-full rounded border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-900 sm:p-7"
           >
             <h2 className="mb-6 text-2xl font-semibold text-slate-900 dark:text-white">
               Sign In
             </h2>
 
             {error && (
-              <div className="mb-5 rounded-xl bg-red-50 p-4 text-base text-red-700 dark:bg-red-900/50 dark:text-red-300">
+              <div className="mb-5 rounded border border-red-200 bg-red-50 p-4 text-base text-red-700 dark:border-red-800 dark:bg-red-900/50 dark:text-red-300">
                 {error}
               </div>
             )}
@@ -75,7 +75,7 @@ export function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="h-14 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base leading-6 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white sm:text-lg"
+                className="h-14 w-full rounded border border-slate-200 bg-white px-4 py-3 text-base leading-6 text-slate-900 transition-colors focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:border-blue-400 sm:text-lg"
               />
             </div>
 
@@ -93,14 +93,14 @@ export function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="h-14 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base leading-6 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white sm:text-lg"
+                className="h-14 w-full rounded border border-slate-200 bg-white px-4 py-3 text-base leading-6 text-slate-900 transition-colors focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:border-blue-400 sm:text-lg"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full rounded-xl bg-blue-600 px-5 py-4 text-base font-semibold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+              className="w-full rounded bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 focus:outline-none disabled:opacity-50"
             >
               {isSubmitting ? 'Signing in...' : 'Sign In'}
             </button>

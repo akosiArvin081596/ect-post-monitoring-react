@@ -55,7 +55,7 @@ export function ExpenseBreakdownStep() {
         />
       </div>
 
-      <div className="rounded-lg bg-gray-100 p-5 dark:bg-gray-800">
+      <div className="rounded border border-gray-200 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-800">
         <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
           Expense Categories
         </h3>
@@ -120,7 +120,7 @@ export function ExpenseBreakdownStep() {
         </div>
       </div>
 
-      <div className="rounded-lg bg-gray-100 p-5 dark:bg-gray-800">
+      <div className="rounded border border-gray-200 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-800">
         <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
           Livelihood Expenses
         </h3>
@@ -164,7 +164,7 @@ export function ExpenseBreakdownStep() {
         />
       </div>
 
-      <div className="rounded-lg bg-blue-50 p-5 dark:bg-blue-900/20">
+      <div className="rounded border border-blue-200 bg-blue-50 p-5 dark:border-blue-800 dark:bg-blue-900/20">
         <div className="flex flex-col gap-1 text-base sm:flex-row sm:justify-between">
           <span className="text-gray-700 dark:text-gray-300">Total Utilization:</span>
           <span className="font-semibold text-gray-900 dark:text-white">
@@ -191,7 +191,7 @@ export function ExpenseBreakdownStep() {
       )}
 
       {variance < 0 && (
-        <div className="rounded-lg bg-red-50 p-4 text-base text-red-700 dark:bg-red-900/20 dark:text-red-400">
+        <div className="rounded border border-red-200 bg-red-50 p-4 text-base text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">
           Total expenses exceed the amount received. Please verify the entries.
         </div>
       )}
@@ -200,7 +200,7 @@ export function ExpenseBreakdownStep() {
         <button
           type="button"
           onClick={prevStep}
-          className="flex-1 rounded-lg border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+          className="flex-1 rounded border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
         >
           Previous
         </button>
@@ -208,7 +208,7 @@ export function ExpenseBreakdownStep() {
           type="button"
           onClick={nextStep}
           disabled={!canProceed}
-          className="flex-1 rounded-lg bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+          className="flex-1 rounded bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
         >
           Next
         </button>
