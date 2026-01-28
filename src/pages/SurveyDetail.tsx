@@ -279,7 +279,7 @@ export function SurveyDetail() {
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            {(survey.status === 'draft' || survey.status === 'error') && (
+            {(survey.status === 'draft' || survey.status === 'pending' || survey.status === 'error') && (
               <Link
                 to={`/survey/${survey.clientUuid}/edit`}
                 className="flex-1 border border-blue-600 bg-white px-5 py-4 text-center text-base font-semibold text-blue-600 hover:bg-blue-50 dark:bg-transparent dark:hover:bg-blue-900/20"
