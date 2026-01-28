@@ -6,6 +6,7 @@ import { useOnlineStatus } from '../hooks/useOnlineStatus'
 import { type OfflineSurvey } from '../lib/db'
 import { initialSurveyFormData, type SurveyFormData } from '../lib/types'
 import { AppShell } from '../components/ui/AppShell'
+import { resolveAssetUrl } from '../lib/assets'
 
 export function SurveyDetail() {
   const { id } = useParams<{ id: string }>()
@@ -229,33 +230,37 @@ export function SurveyDetail() {
               )}
             </Section>
 
-            {(survey.photoWithIdBase64 || survey.respondentSignatureBase64 || survey.interviewerSignatureBase64) && (
+            {(
+              resolveAssetUrl(survey.photoWithIdBase64) ||
+              resolveAssetUrl(survey.respondentSignatureBase64) ||
+              resolveAssetUrl(survey.interviewerSignatureBase64)
+            ) && (
               <Section title="Attachments">
-                {survey.photoWithIdBase64 && (
+                {resolveAssetUrl(survey.photoWithIdBase64) && (
                   <div className="mb-4">
                     <p className="mb-2 text-base text-gray-600 dark:text-gray-400">Photo with ID</p>
                     <img
-                      src={survey.photoWithIdBase64}
+                      src={resolveAssetUrl(survey.photoWithIdBase64) ?? undefined}
                       alt="Beneficiary with ID"
                       className="max-w-full h-auto border border-gray-300 dark:border-gray-600"
                     />
                   </div>
                 )}
-                {survey.respondentSignatureBase64 && (
+                {resolveAssetUrl(survey.respondentSignatureBase64) && (
                   <div className="mb-4">
                     <p className="mb-2 text-base text-gray-600 dark:text-gray-400">Respondent Signature</p>
                     <img
-                      src={survey.respondentSignatureBase64}
+                      src={resolveAssetUrl(survey.respondentSignatureBase64) ?? undefined}
                       alt="Respondent Signature"
                       className="max-w-full h-auto border border-gray-300 dark:border-gray-600 bg-white"
                     />
                   </div>
                 )}
-                {survey.interviewerSignatureBase64 && (
+                {resolveAssetUrl(survey.interviewerSignatureBase64) && (
                   <div className="mb-4">
                     <p className="mb-2 text-base text-gray-600 dark:text-gray-400">Interviewer Signature</p>
                     <img
-                      src={survey.interviewerSignatureBase64}
+                      src={resolveAssetUrl(survey.interviewerSignatureBase64) ?? undefined}
                       alt="Interviewer Signature"
                       className="max-w-full h-auto border border-gray-300 dark:border-gray-600 bg-white"
                     />

@@ -1,6 +1,7 @@
 import { type AxiosError } from 'axios'
 import { db, type OfflineSurvey, type SyncQueueItem } from './db'
 import { api } from './api'
+import { resolveAssetUrl } from './assets'
 import {
   listSurveysByStatus,
   getSurvey,
@@ -226,15 +227,19 @@ function mapApiSurveyToOfflineSurvey(
 ): OfflineSurvey {
   const uploads = survey.uploads ?? []
   const photoWithId =
-    uploads.find((upload) => upload.type === 'photo_with_id')?.url ??
+    resolveAssetUrl(uploads.find((upload) => upload.type === 'photo_with_id')?.url) ??
     existing?.photoWithIdBase64 ??
     null
   const respondentSignature =
-    uploads.find((upload) => upload.type === 'respondent_signature')?.url ??
+    resolveAssetUrl(
+      uploads.find((upload) => upload.type === 'respondent_signature')?.url
+    ) ??
     existing?.respondentSignatureBase64 ??
     null
   const interviewerSignature =
-    uploads.find((upload) => upload.type === 'interviewer_signature')?.url ??
+    resolveAssetUrl(
+      uploads.find((upload) => upload.type === 'interviewer_signature')?.url
+    ) ??
     existing?.interviewerSignatureBase64 ??
     null
 
