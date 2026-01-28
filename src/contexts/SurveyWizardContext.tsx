@@ -42,7 +42,7 @@ interface SurveyWizardContextValue {
 
 const SurveyWizardContext = createContext<SurveyWizardContextValue | null>(null)
 
-const TOTAL_STEPS = 7
+const TOTAL_STEPS = 8
 
 interface ProviderProps {
   children: ReactNode
@@ -66,7 +66,8 @@ export function SurveyWizardProvider({ children, existingUuid }: ProviderProps) 
       if (existingUuid) {
         const existing = await getSurvey(existingUuid)
         if (existing) {
-          setFormData(JSON.parse(existing.formData) as SurveyFormData)
+          const parsed = JSON.parse(existing.formData) as Partial<SurveyFormData>
+          setFormData({ ...initialSurveyFormData, ...parsed })
           setPhotoWithId(existing.photoWithIdBase64)
           setRespondentSignature(existing.respondentSignatureBase64)
           setInterviewerSignature(existing.interviewerSignatureBase64)

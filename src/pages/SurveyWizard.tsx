@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { SurveyWizardProvider, useSurveyWizard } from '../contexts/SurveyWizardContext'
 import { StepIndicator } from '../components/ui/StepIndicator'
+import { IncidentStep } from '../components/survey/IncidentStep'
 import { ConsentStep } from '../components/survey/ConsentStep'
 import { BeneficiaryInfoStep } from '../components/survey/BeneficiaryInfoStep'
 import { AddressStep } from '../components/survey/AddressStep'
@@ -11,6 +12,7 @@ import { InterviewerStep } from '../components/survey/InterviewerStep'
 import { AppShell } from '../components/ui/AppShell'
 
 const stepLabels = [
+  'Incident',
   'Consent',
   'Beneficiary Info',
   'Address',
@@ -36,18 +38,20 @@ function WizardContent({ isEditing }: { isEditing: boolean }) {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <ConsentStep />
+        return <IncidentStep />
       case 2:
-        return <BeneficiaryInfoStep />
+        return <ConsentStep />
       case 3:
-        return <AddressStep />
+        return <BeneficiaryInfoStep />
       case 4:
-        return <UtilizationTypeStep />
+        return <AddressStep />
       case 5:
-        return <ExpenseBreakdownStep />
+        return <UtilizationTypeStep />
       case 6:
-        return <PhotoSignatureStep />
+        return <ExpenseBreakdownStep />
       case 7:
+        return <PhotoSignatureStep />
+      case 8:
         return <InterviewerStep />
       default:
         return null

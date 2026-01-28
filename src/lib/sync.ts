@@ -17,9 +17,20 @@ interface ApiSurveyUpload {
   url: string
 }
 
+interface ApiIncident {
+  id: number
+  name: string
+  type: string
+  is_active: boolean
+  starts_at?: string | null
+  ends_at?: string | null
+}
+
 interface ApiSurvey {
   id: number
   client_uuid: string
+  incident_id?: number | string | null
+  incident?: ApiIncident | null
   consent_agreed: boolean | number | string
   beneficiary_name: string | null
   respondent_name: string | null
@@ -74,6 +85,7 @@ interface ApiSurveyCollection {
   meta?: {
     current_page?: number
     last_page?: number
+    total?: number
   }
 }
 
@@ -97,6 +109,10 @@ function getLastServerSyncAt(): string | null {
 
 function setLastServerSyncAt(value: string): void {
   localStorage.setItem(LAST_SERVER_SYNC_KEY, value)
+}
+
+function clearLastServerSyncAt(): void {
+  localStorage.removeItem(LAST_SERVER_SYNC_KEY)
 }
 
 function toStringValue(value: unknown): string {
@@ -155,6 +171,8 @@ function toDateValue(value: unknown, fallback: Date): Date {
 
 function mapApiSurveyToFormData(survey: ApiSurvey): SurveyFormData {
   return {
+    incidentId: toNullableNumber(survey.incident_id),
+    incidentName: survey.incident?.name ?? '',
     consentAgreed: toBooleanValue(survey.consent_agreed),
     beneficiaryName: toStringValue(survey.beneficiary_name),
     respondentName: toStringValue(survey.respondent_name),
@@ -362,15 +380,18 @@ export async function syncPendingSurveys(): Promise<{
 
 async function fetchSurveyPage(
   page: number,
-  updatedSince?: string
+  options?: { updatedSince?: string; perPage?: number }
 ): Promise<ApiSurveyCollection> {
-  const response = await api.get<ApiSurveyCollection>('/v1/surveys', {
-    params: {
-      page,
-      per_page: SERVER_SYNC_PAGE_SIZE,
-      updated_since: updatedSince,
-    },
-  })
+  const params: Record<string, number | string> = {
+    page,
+    per_page: options?.perPage ?? SERVER_SYNC_PAGE_SIZE,
+  }
+
+  if (options?.updatedSince) {
+    params.updated_since = options.updatedSince
+  }
+
+  const response = await api.get<ApiSurveyCollection>('/v1/surveys', { params })
   return response.data
 }
 
@@ -381,7 +402,7 @@ export async function fetchAllServerSurveys(
   let page = 1
 
   while (true) {
-    const response = await fetchSurveyPage(page, updatedSince)
+    const response = await fetchSurveyPage(page, { updatedSince })
     surveys.push(...response.data)
 
     const lastPage = response.meta?.last_page ?? page
@@ -394,7 +415,42 @@ export async function fetchAllServerSurveys(
   return surveys
 }
 
+async function fetchSurveyTotal(): Promise<number> {
+  const response = await fetchSurveyPage(1, { perPage: 1 })
+  return response.meta?.total ?? response.data.length
+}
+
+async function resetSyncedSurveysToPending(): Promise<number> {
+  const syncedSurveys = await db.surveys.where('status').equals('synced').toArray()
+  if (syncedSurveys.length === 0) {
+    return 0
+  }
+
+  const now = new Date()
+  const updates = syncedSurveys.map((survey) => ({
+    ...survey,
+    status: 'pending' as const,
+    serverId: null,
+    errorMessage: null,
+    updatedAt: now,
+  }))
+
+  await db.surveys.bulkPut(updates)
+  return updates.length
+}
+
 export async function syncServerSurveys(): Promise<number> {
+  const [total, localSyncedCount] = await Promise.all([
+    fetchSurveyTotal(),
+    db.surveys.where('status').equals('synced').count(),
+  ])
+
+  if (total === 0 && localSyncedCount > 0) {
+    const resets = await resetSyncedSurveysToPending()
+    clearLastServerSyncAt()
+    return resets
+  }
+
   const lastSyncAt = getLastServerSyncAt()
   const serverSurveys = await fetchAllServerSurveys(lastSyncAt || undefined)
   if (serverSurveys.length === 0) {

@@ -1,4 +1,8 @@
 export interface SurveyFormData {
+  // Incident
+  incidentId: number | null
+  incidentName: string
+
   // Consent
   consentAgreed: boolean
 
@@ -57,6 +61,8 @@ export interface SurveyFormData {
 }
 
 export const initialSurveyFormData: SurveyFormData = {
+  incidentId: null,
+  incidentName: '',
   consentAgreed: false,
   beneficiaryName: '',
   respondentName: '',
@@ -105,6 +111,7 @@ export const initialSurveyFormData: SurveyFormData = {
 
 export function toSnakeCase(data: SurveyFormData): Record<string, unknown> {
   return {
+    incident_id: data.incidentId,
     consent_agreed: data.consentAgreed,
     beneficiary_name: data.beneficiaryName,
     respondent_name: data.respondentName,

@@ -4,7 +4,7 @@ import { getSurvey, deleteSurvey, markSurveyAsPending } from '../lib/surveyStora
 import { syncSingleSurvey } from '../lib/sync'
 import { useOnlineStatus } from '../hooks/useOnlineStatus'
 import { type OfflineSurvey } from '../lib/db'
-import { type SurveyFormData } from '../lib/types'
+import { initialSurveyFormData, type SurveyFormData } from '../lib/types'
 import { AppShell } from '../components/ui/AppShell'
 
 export function SurveyDetail() {
@@ -22,7 +22,8 @@ export function SurveyDetail() {
       const data = await getSurvey(id)
       if (data) {
         setSurvey(data)
-        setFormData(JSON.parse(data.formData) as SurveyFormData)
+        const parsed = JSON.parse(data.formData) as Partial<SurveyFormData>
+        setFormData({ ...initialSurveyFormData, ...parsed })
       }
       setIsLoading(false)
     }
@@ -121,6 +122,11 @@ export function SurveyDetail() {
           </h2>
 
           <div className="space-y-5">
+            {formData.incidentName && (
+              <Section title="Incident">
+                <InfoRow label="Incident" value={formData.incidentName} />
+              </Section>
+            )}
             <Section title="Beneficiary Information">
               <InfoRow label="Respondent" value={formData.respondentName} />
               <InfoRow label="Relationship" value={formData.relationshipToBeneficiary} />

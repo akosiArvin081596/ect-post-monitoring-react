@@ -11,7 +11,7 @@ import { syncPendingSurveys, syncServerSurveys } from '../lib/sync'
 import { cacheAddresses, isAddressCacheEmpty } from '../lib/addressCache'
 import { useOnlineStatus } from '../hooks/useOnlineStatus'
 import { type OfflineSurvey } from '../lib/db'
-import { type SurveyFormData } from '../lib/types'
+import { initialSurveyFormData, type SurveyFormData } from '../lib/types'
 import { AppShell } from '../components/ui/AppShell'
 
 export function Dashboard() {
@@ -236,7 +236,8 @@ export function Dashboard() {
             ) : (
               <ul className="divide-y divide-slate-200 dark:divide-slate-800">
                 {surveys.slice(0, 10).map((survey) => {
-                  const data = JSON.parse(survey.formData) as SurveyFormData
+                  const parsed = JSON.parse(survey.formData) as Partial<SurveyFormData>
+                  const data = { ...initialSurveyFormData, ...parsed }
                   return (
                     <li key={survey.clientUuid}>
                       <Link
@@ -252,6 +253,11 @@ export function Dashboard() {
                               {data.municipality || 'No location'} -{' '}
                               {new Date(survey.updatedAt).toLocaleDateString()}
                             </p>
+                            {data.incidentName && (
+                              <p className="text-sm text-slate-500 dark:text-slate-400">
+                                {data.incidentName}
+                              </p>
+                            )}
                           </div>
                           {getStatusBadge(survey.status)}
                         </div>
