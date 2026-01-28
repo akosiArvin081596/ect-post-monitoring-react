@@ -124,9 +124,24 @@ export function SurveyDetail() {
             <Section title="Beneficiary Information">
               <InfoRow label="Respondent" value={formData.respondentName} />
               <InfoRow label="Relationship" value={formData.relationshipToBeneficiary} />
+              {formData.relationshipSpecify && (
+                <InfoRow label="Relationship (Specify)" value={formData.relationshipSpecify} />
+              )}
+              <InfoRow label="Birthdate" value={formData.birthdate} />
               <InfoRow label="Age" value={formData.age.toString()} />
               <InfoRow label="Sex" value={formData.sex} />
-              <InfoRow label="Classification" value={formData.beneficiaryClassification.join(', ')} />
+              <InfoRow label="Beneficiary Classification" value={formData.beneficiaryClassification.join(', ')} />
+              {formData.householdIdNo && (
+                <InfoRow label="Household ID No." value={formData.householdIdNo} />
+              )}
+              <InfoRow label="Demographic Classification" value={formData.demographicClassification.join(', ')} />
+              {formData.ipSpecify && (
+                <InfoRow label="IP Group" value={formData.ipSpecify} />
+              )}
+              <InfoRow label="Highest Education" value={formData.highestEducationalAttainment} />
+              {formData.educationalAttainmentSpecify && (
+                <InfoRow label="Education (Specify)" value={formData.educationalAttainmentSpecify} />
+              )}
             </Section>
 
             <Section title="Address">
@@ -134,6 +149,17 @@ export function SurveyDetail() {
               <InfoRow label="District" value={formData.district} />
               <InfoRow label="Municipality" value={formData.municipality} />
               <InfoRow label="Barangay" value={formData.barangay} />
+              {formData.sitioPurokStreet && (
+                <InfoRow label="Sitio/Purok/Street" value={formData.sitioPurokStreet} />
+              )}
+              {formData.latitude && formData.longitude && (
+                <>
+                  <InfoRow label="GPS Coordinates" value={`${formData.latitude.toFixed(6)}, ${formData.longitude.toFixed(6)}`} />
+                  {formData.accuracy && (
+                    <InfoRow label="GPS Accuracy" value={`${formData.accuracy.toFixed(1)}m`} />
+                  )}
+                </>
+              )}
             </Section>
 
             <Section title="ECT Information">
@@ -143,21 +169,101 @@ export function SurveyDetail() {
                 value={`₱${formData.amountReceived.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`}
               />
               <InfoRow label="Date Received" value={formData.dateReceived} />
-              <InfoRow
-                label="Total Utilized"
-                value={`₱${totalUtilization.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`}
-              />
-              <InfoRow
-                label="Variance"
-                value={`₱${variance.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`}
-                className={variance < 0 ? 'text-red-600' : variance > 0 ? 'text-amber-600' : 'text-green-600'}
-              />
+            </Section>
+
+            <Section title="Expense Breakdown">
+              <InfoRow label="Food" value={`₱${formData.expenseFood.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+              <InfoRow label="Educational" value={`₱${formData.expenseEducational.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+              <InfoRow label="House Rental" value={`₱${formData.expenseHouseRental.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+              <InfoRow label="Medical" value={`₱${formData.expenseMedical.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+              <InfoRow label="Non-Food Items" value={`₱${formData.expenseNonFoodItems.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+              <InfoRow label="Utilities" value={`₱${formData.expenseUtilities.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+              <InfoRow label="Shelter Materials" value={`₱${formData.expenseShelterMaterials.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+              <InfoRow label="Transportation" value={`₱${formData.expenseTransportation.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+              {formData.livelihoodTypes.length > 0 && (
+                <>
+                  <InfoRow label="Livelihood Types" value={formData.livelihoodTypes.join(', ')} />
+                  {formData.livelihoodSpecify && (
+                    <InfoRow label="Livelihood (Specify)" value={formData.livelihoodSpecify} />
+                  )}
+                  <InfoRow label="Livelihood Expense" value={`₱${formData.expenseLivelihood.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+                </>
+              )}
+              {formData.expenseOthers > 0 && (
+                <>
+                  {formData.expenseOthersSpecify && (
+                    <InfoRow label="Other Expense (Specify)" value={formData.expenseOthersSpecify} />
+                  )}
+                  <InfoRow label="Other Expenses" value={`₱${formData.expenseOthers.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`} />
+                </>
+              )}
+              <div className="border-t border-gray-200 pt-3 mt-3 dark:border-gray-700">
+                <InfoRow
+                  label="Total Utilized"
+                  value={`₱${totalUtilization.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`}
+                  className="font-bold"
+                />
+                <InfoRow
+                  label="Variance (Unutilized)"
+                  value={`₱${variance.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`}
+                  className={variance < 0 ? 'text-red-600 font-bold' : variance > 0 ? 'text-amber-600 font-bold' : 'text-green-600 font-bold'}
+                />
+              </div>
+              {formData.reasonNotFullyUtilized && (
+                <InfoRow label="Reason Not Fully Utilized" value={formData.reasonNotFullyUtilized} />
+              )}
             </Section>
 
             <Section title="Interviewer">
               <InfoRow label="Interviewed By" value={formData.interviewedBy} />
               <InfoRow label="Position" value={formData.position} />
               <InfoRow label="Modality" value={formData.surveyModality} />
+              {formData.modalitySpecify && (
+                <InfoRow label="Modality (Specify)" value={formData.modalitySpecify} />
+              )}
+            </Section>
+
+            {(survey.photoWithIdBase64 || survey.respondentSignatureBase64 || survey.interviewerSignatureBase64) && (
+              <Section title="Attachments">
+                {survey.photoWithIdBase64 && (
+                  <div className="mb-4">
+                    <p className="mb-2 text-base text-gray-600 dark:text-gray-400">Photo with ID</p>
+                    <img
+                      src={survey.photoWithIdBase64}
+                      alt="Beneficiary with ID"
+                      className="max-w-full h-auto border border-gray-300 dark:border-gray-600"
+                    />
+                  </div>
+                )}
+                {survey.respondentSignatureBase64 && (
+                  <div className="mb-4">
+                    <p className="mb-2 text-base text-gray-600 dark:text-gray-400">Respondent Signature</p>
+                    <img
+                      src={survey.respondentSignatureBase64}
+                      alt="Respondent Signature"
+                      className="max-w-full h-auto border border-gray-300 dark:border-gray-600 bg-white"
+                    />
+                  </div>
+                )}
+                {survey.interviewerSignatureBase64 && (
+                  <div className="mb-4">
+                    <p className="mb-2 text-base text-gray-600 dark:text-gray-400">Interviewer Signature</p>
+                    <img
+                      src={survey.interviewerSignatureBase64}
+                      alt="Interviewer Signature"
+                      className="max-w-full h-auto border border-gray-300 dark:border-gray-600 bg-white"
+                    />
+                  </div>
+                )}
+              </Section>
+            )}
+
+            <Section title="Status">
+              <InfoRow label="Survey Status" value={survey.status.charAt(0).toUpperCase() + survey.status.slice(1)} />
+              {survey.serverId && (
+                <InfoRow label="Server ID" value={survey.serverId.toString()} />
+              )}
+              <InfoRow label="Last Updated" value={new Date(survey.updatedAt).toLocaleString()} />
             </Section>
           </div>
 
