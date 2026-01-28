@@ -41,7 +41,7 @@ export function AppShell({
               {backTo && (
                 <Link
                   to={backTo}
-                  className="flex h-11 w-11 items-center justify-center rounded bg-white/15 text-white transition hover:bg-white/25"
+                  className="flex h-11 w-11 items-center justify-center bg-white/15 text-white transition hover:bg-white/25"
                   aria-label={backLabel}
                 >
                   <svg
@@ -85,7 +85,7 @@ export function AppShell({
                   <Link
                     key={item.label}
                     to={item.to}
-                    className={`flex flex-1 flex-col items-center gap-1 rounded px-3 py-2 text-base font-semibold transition ${
+                    className={`flex flex-1 flex-col items-center gap-1 px-3 py-2 text-base font-semibold transition ${
                       isActive
                         ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-200'
                         : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900'

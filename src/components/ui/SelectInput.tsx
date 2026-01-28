@@ -33,7 +33,7 @@ export function SelectInput({
         onChange={(e) => onChange(e.target.value)}
         required={required}
         disabled={disabled}
-        className="h-14 w-full rounded border border-gray-300 bg-white px-4 py-3 text-base leading-6 text-gray-900 transition-colors focus:border-blue-500 focus:outline-none disabled:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400 dark:disabled:bg-gray-900 sm:text-lg"
+        className="h-14 w-full border border-gray-300 bg-white px-4 py-3 text-base leading-6 text-gray-900 transition-colors focus:border-blue-500 focus:outline-none disabled:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400 dark:disabled:bg-gray-900 sm:text-lg"
       >
         <option value="">{placeholder}</option>
         {options.map((option) => (

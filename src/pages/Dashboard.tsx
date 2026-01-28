@@ -75,7 +75,7 @@ export function Dashboard() {
       error: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
     }
     return (
-      <span className={`rounded px-3 py-1 text-base font-medium ${styles[status]}`}>
+      <span className={`px-3 py-1 text-base font-medium ${styles[status]}`}>
         {status}
       </span>
     )
@@ -126,7 +126,7 @@ export function Dashboard() {
       action={
         <button
           onClick={logout}
-          className="rounded border border-white/30 px-4 py-2 text-base font-semibold text-white hover:bg-white/15"
+          className="border border-white/30 px-4 py-2 text-base font-semibold text-white hover:bg-white/15"
         >
           Logout
         </button>
@@ -134,7 +134,7 @@ export function Dashboard() {
       navItems={navItems}
     >
       <div className="flex flex-col gap-5">
-        <div className="rounded border border-blue-200 bg-blue-50 p-4 text-base text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-200">
+        <div className="border border-blue-200 bg-blue-50 p-4 text-base text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-200">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-lg font-semibold">Survey Activity</p>
@@ -146,7 +146,7 @@ export function Dashboard() {
               <button
                 type="button"
                 onClick={() => setTab('overview')}
-                className={`rounded px-4 py-2 text-base font-semibold transition ${
+                className={`px-4 py-2 text-base font-semibold transition ${
                   activeTab === 'overview'
                     ? 'bg-blue-600 text-white'
                     : 'border border-blue-200 bg-white text-blue-700'
@@ -157,7 +157,7 @@ export function Dashboard() {
               <button
                 type="button"
                 onClick={() => setTab('surveys')}
-                className={`rounded px-4 py-2 text-base font-semibold transition ${
+                className={`px-4 py-2 text-base font-semibold transition ${
                   activeTab === 'surveys'
                     ? 'bg-blue-600 text-white'
                     : 'border border-blue-200 bg-white text-blue-700'
@@ -170,7 +170,7 @@ export function Dashboard() {
         </div>
 
         {isLoadingAddresses && (
-          <div className="rounded border border-amber-200 bg-amber-50 p-4 text-base text-amber-800 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
+          <div className="border border-amber-200 bg-amber-50 p-4 text-base text-amber-800 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
             Downloading address data for offline use...
           </div>
         )}
@@ -178,17 +178,17 @@ export function Dashboard() {
         {activeTab === 'overview' && (
           <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div className="rounded border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-900">
+              <div className="border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-900">
                 <div className="text-3xl font-bold text-slate-900 dark:text-white">
                   {syncedCount}
                 </div>
                 <div className="text-base text-slate-600 dark:text-slate-400">Synced</div>
               </div>
-              <div className="rounded border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-900">
+              <div className="border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-900">
                 <div className="text-3xl font-bold text-amber-600">{pendingCount}</div>
                 <div className="text-base text-slate-600 dark:text-slate-400">Pending</div>
               </div>
-              <div className="rounded border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-900">
+              <div className="border border-slate-200 bg-white p-5 text-center dark:border-slate-700 dark:bg-slate-900">
                 <div className="text-3xl font-bold text-slate-500">{draftCount}</div>
                 <div className="text-base text-slate-600 dark:text-slate-400">Drafts</div>
               </div>
@@ -197,7 +197,7 @@ export function Dashboard() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 to="/survey/new"
-                className="flex-1 rounded bg-blue-600 px-5 py-4 text-center text-base font-semibold text-white hover:bg-blue-700"
+                className="flex-1 bg-blue-600 px-5 py-4 text-center text-base font-semibold text-white hover:bg-blue-700"
               >
                 Start New Survey
               </Link>
@@ -205,7 +205,7 @@ export function Dashboard() {
                 <button
                   onClick={handleSync}
                   disabled={isSyncing}
-                  className="rounded bg-emerald-600 px-5 py-4 text-base font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
+                  className="bg-emerald-600 px-5 py-4 text-base font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
                 >
                   {isSyncing ? 'Syncing...' : 'Sync Pending'}
                 </button>
@@ -215,7 +215,7 @@ export function Dashboard() {
         )}
 
         {activeTab === 'surveys' && (
-          <div className="rounded border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
+          <div className="border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
             <div className="border-b border-slate-200 px-5 py-4 dark:border-slate-800">
               <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                 Recent Surveys

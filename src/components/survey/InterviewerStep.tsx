@@ -63,7 +63,7 @@ export function InterviewerStep() {
         />
       )}
 
-      <div className="mt-5 rounded border border-gray-200 bg-gray-50 p-4 sm:mt-6 sm:p-5 dark:border-gray-700 dark:bg-gray-800">
+      <div className="mt-5 border border-gray-200 bg-gray-50 p-4 sm:mt-6 sm:p-5 dark:border-gray-700 dark:bg-gray-800">
         <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
           Summary
         </h3>
@@ -114,7 +114,7 @@ export function InterviewerStep() {
           type="button"
           onClick={prevStep}
           disabled={isSubmitting}
-          className="flex-1 rounded border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+          className="flex-1 border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
         >
           Previous
         </button>
@@ -122,7 +122,7 @@ export function InterviewerStep() {
           type="button"
           onClick={submitSurvey}
           disabled={!canSubmit || isSubmitting}
-          className="flex-1 rounded bg-green-600 px-5 py-4 text-base font-semibold text-white hover:bg-green-700 disabled:opacity-50"
+          className="flex-1 bg-green-600 px-5 py-4 text-base font-semibold text-white hover:bg-green-700 disabled:opacity-50"
         >
           {isSubmitting ? 'Submitting...' : 'Submit Survey'}
         </button>

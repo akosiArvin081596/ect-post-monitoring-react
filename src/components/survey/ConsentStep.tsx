@@ -14,7 +14,7 @@ export function ConsentStep() {
         Privacy Notice and Consent
       </h2>
 
-      <div className="rounded border border-blue-200 bg-blue-50 p-4 sm:p-5 dark:border-blue-800 dark:bg-blue-900/20">
+      <div className="border border-blue-200 bg-blue-50 p-4 sm:p-5 dark:border-blue-800 dark:bg-blue-900/20">
         <div className="prose prose-sm dark:prose-invert max-w-none">
           <p className="text-base text-gray-700 dark:text-gray-300">
             The Department of Social Welfare and Development (DSWD) is committed
@@ -35,7 +35,7 @@ export function ConsentStep() {
         </div>
       </div>
 
-      <div className="rounded border border-gray-200 bg-gray-50 p-4 sm:p-5 dark:border-gray-700 dark:bg-gray-800">
+      <div className="border border-gray-200 bg-gray-50 p-4 sm:p-5 dark:border-gray-700 dark:bg-gray-800">
         <p className="mb-4 text-base text-gray-700 dark:text-gray-300">
           Do you agree to participate in this survey and provide your consent
           for the collection and processing of your personal information?
@@ -44,7 +44,7 @@ export function ConsentStep() {
           <button
             type="button"
             onClick={handleAgree}
-            className="flex-1 rounded bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700"
+            className="flex-1 bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700"
           >
             Yes, I Agree
           </button>

@@ -60,7 +60,7 @@ function WizardContent({ isEditing }: { isEditing: boolean }) {
       action={
         <button
           onClick={handleCancel}
-          className="rounded border border-white/30 px-4 py-2 text-base font-semibold text-white hover:bg-white/15"
+          className="border border-white/30 px-4 py-2 text-base font-semibold text-white hover:bg-white/15"
         >
           Cancel
         </button>
@@ -73,7 +73,7 @@ function WizardContent({ isEditing }: { isEditing: boolean }) {
         labels={stepLabels}
       />
 
-      <div className="rounded border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-700 dark:bg-slate-900">
+      <div className="border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-700 dark:bg-slate-900">
         {renderStep()}
       </div>
     </AppShell>

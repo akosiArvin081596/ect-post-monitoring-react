@@ -23,7 +23,7 @@ export function UtilizationTypeStep() {
         Type of ECT Utilization
       </h2>
 
-      <div className="rounded border border-blue-200 bg-blue-50 p-4 sm:p-5 dark:border-blue-800 dark:bg-blue-900/20">
+      <div className="border border-blue-200 bg-blue-50 p-4 sm:p-5 dark:border-blue-800 dark:bg-blue-900/20">
         <p className="text-base text-gray-700 dark:text-gray-300">
           Please select the type of Emergency Cash Transfer (ECT) assistance
           that was received.
@@ -38,7 +38,7 @@ export function UtilizationTypeStep() {
         required
       />
 
-      <div className="rounded border border-gray-200 bg-gray-50 p-4 sm:p-5 dark:border-gray-700 dark:bg-gray-800">
+      <div className="border border-gray-200 bg-gray-50 p-4 sm:p-5 dark:border-gray-700 dark:bg-gray-800">
         <h3 className="mb-3 text-base font-semibold text-gray-900 dark:text-white">
           Description:
         </h3>
@@ -65,7 +65,7 @@ export function UtilizationTypeStep() {
         <button
           type="button"
           onClick={prevStep}
-          className="flex-1 rounded border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+          className="flex-1 border border-gray-300 px-5 py-4 text-base font-semibold text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
         >
           Previous
         </button>
@@ -73,7 +73,7 @@ export function UtilizationTypeStep() {
           type="button"
           onClick={nextStep}
           disabled={!canProceed}
-          className="flex-1 rounded bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+          className="flex-1 bg-blue-600 px-5 py-4 text-base font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
         >
           Next
         </button>
