@@ -78,9 +78,7 @@ async function uploadFile(
   formData.append('file', blob, `${type}.${ext}`)
   formData.append('type', type)
 
-  await api.post(`/v1/surveys/${surveyId}/uploads`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  })
+  await api.post(`/v1/surveys/${surveyId}/uploads`, formData)
 }
 
 export async function syncPendingSurveys(): Promise<{
