@@ -66,10 +66,10 @@ export function Login() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-100 px-4 py-8 dark:bg-slate-950 sm:px-6">
-      <div className="relative mx-auto flex w-full max-w-lg flex-col items-center animate-fade-in-up">
+    <div className="relative flex min-h-screen flex-col bg-slate-100 dark:bg-slate-950 md:items-center md:justify-center md:px-6 md:py-8">
+      <div className="relative mx-auto flex w-full flex-col items-center animate-fade-in-up md:max-w-lg">
         {/* Logo floating above header */}
-        <div className="relative z-10 mb-[-3.5rem]">
+        <div className="relative z-10 mt-8 mb-[-3.5rem] md:mt-0">
           <div className="h-28 w-28 border-4 border-white bg-white shadow-lg dark:border-slate-800 dark:bg-slate-800" style={{ borderRadius: '50%' }}>
             <img
               src={logo}
@@ -90,7 +90,7 @@ export function Login() {
         {/* Form card */}
         <form
           onSubmit={handleSubmit}
-          className={`w-full border border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 ${shakeError ? 'animate-shake' : ''}`}
+          className={`w-full flex-1 border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 md:flex-none md:border ${shakeError ? 'animate-shake' : ''}`}
         >
           <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
             Welcome back
@@ -245,7 +245,7 @@ export function Login() {
         </form>
 
         {/* Developer credit */}
-        <div className="mt-8 text-center">
+        <div className="w-full bg-white py-6 text-center dark:bg-slate-900 md:mt-8 md:bg-transparent md:py-0 md:dark:bg-transparent">
           <div className="mx-auto mb-2 h-px w-16 bg-slate-300 dark:bg-slate-700" />
           <p className="text-xs text-slate-400 dark:text-slate-500">
             Developed by Arvin B. Edubas
