@@ -66,10 +66,10 @@ export function Login() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-slate-100 dark:bg-slate-950 lg:items-center lg:justify-center lg:px-6 lg:py-8">
-      <div className="relative flex min-h-screen w-full flex-col items-center animate-fade-in-up lg:min-h-0 lg:max-w-lg">
+    <div className="relative flex min-h-screen flex-col bg-slate-100 dark:bg-slate-950 xl:items-center xl:justify-center xl:px-6 xl:py-8">
+      <div className="relative flex min-h-screen w-full flex-col items-center animate-fade-in-up xl:min-h-0 xl:max-w-lg">
         {/* Logo floating above header */}
-        <div className="relative z-10 mt-8 mb-[-3.5rem] lg:mt-0">
+        <div className="relative z-10 mt-8 mb-[-3.5rem] xl:mt-0">
           <div className="h-28 w-28 border-4 border-white bg-white shadow-lg dark:border-slate-800 dark:bg-slate-800" style={{ borderRadius: '50%' }}>
             <img
               src={logo}
@@ -90,7 +90,7 @@ export function Login() {
         {/* Form card */}
         <form
           onSubmit={handleSubmit}
-          className={`w-full flex-1 border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 lg:flex-none lg:border ${shakeError ? 'animate-shake' : ''}`}
+          className={`w-full flex-1 border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 xl:flex-none xl:border ${shakeError ? 'animate-shake' : ''}`}
         >
           <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
             Welcome back
@@ -245,7 +245,7 @@ export function Login() {
         </form>
 
         {/* Developer credit */}
-        <div className="w-full bg-white py-6 text-center dark:bg-slate-900 lg:mt-8 lg:bg-transparent lg:py-0 lg:dark:bg-transparent">
+        <div className="w-full bg-white py-6 text-center dark:bg-slate-900 xl:mt-8 xl:bg-transparent xl:py-0 xl:dark:bg-transparent">
           <div className="mx-auto mb-2 h-px w-16 bg-slate-300 dark:bg-slate-700" />
           <p className="text-xs text-slate-400 dark:text-slate-500">
             Developed by Arvin B. Edubas
