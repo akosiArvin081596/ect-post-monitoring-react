@@ -80,7 +80,7 @@ export function Login() {
             />
           </div>
           <h1 className="text-lg font-extrabold uppercase tracking-[0.2em] text-white sm:text-2xl">
-            Emergency Cash Transfer <br /><span className="whitespace-nowrap">Post Monitoring</span>
+            <span className="block">Emergency Cash Transfer</span><span className="block">Post Monitoring</span>
           </h1>
           <div className="mx-auto mt-4 h-0.5 w-12 bg-white/30" />
         </div>
