@@ -67,20 +67,16 @@ export function Login() {
 
   return (
     <div className="relative flex min-h-screen flex-col bg-slate-100 dark:bg-slate-950 xl:items-center xl:justify-center xl:px-6 xl:py-8">
-      <div className="relative flex min-h-screen w-full flex-col items-center animate-fade-in-up xl:min-h-0 xl:max-w-lg">
-        {/* Logo floating above header */}
-        <div className="relative z-10 mt-8 mb-[-3.5rem] xl:mt-0">
-          <div className="h-28 w-28 border-4 border-white bg-white shadow-lg dark:border-slate-800 dark:bg-slate-800" style={{ borderRadius: '50%' }}>
+      <div className="relative mx-auto flex w-full flex-col items-center animate-fade-in-up xl:max-w-lg">
+        {/* Header with inline logo */}
+        <div className="flex w-full flex-col items-center bg-gradient-to-r from-blue-600 via-blue-650 to-blue-700 px-6 py-8 text-center shadow-lg dark:from-blue-700 dark:via-blue-750 dark:to-blue-800">
+          <div className="mb-4 h-20 w-20 border-4 border-white/30 bg-white shadow-lg xl:mb-4 xl:h-28 xl:w-28" style={{ borderRadius: '50%' }}>
             <img
               src={logo}
               alt="DSWD Caraga"
               className="h-full w-full rounded-full object-cover"
             />
           </div>
-        </div>
-
-        {/* Header */}
-        <div className="w-full bg-gradient-to-r from-blue-600 via-blue-650 to-blue-700 px-6 pb-8 pt-18 text-center shadow-lg dark:from-blue-700 dark:via-blue-750 dark:to-blue-800">
           <h1 className="text-lg font-extrabold uppercase tracking-[0.2em] text-white sm:text-2xl">
             Emergency Cash Transfer Post Monitoring
           </h1>
@@ -90,7 +86,7 @@ export function Login() {
         {/* Form card */}
         <form
           onSubmit={handleSubmit}
-          className={`flex w-full flex-1 flex-col border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 xl:flex-none xl:border ${shakeError ? 'animate-shake' : ''}`}
+          className={`w-full border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 xl:border ${shakeError ? 'animate-shake' : ''}`}
         >
           <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
             Welcome back
@@ -244,7 +240,7 @@ export function Login() {
           </button>
 
           {/* Developer credit */}
-          <div className="mt-auto pt-8 text-center xl:pt-6">
+          <div className="mt-10 text-center">
             <div className="mx-auto mb-2 h-px w-16 bg-slate-300 dark:bg-slate-700" />
             <p className="text-xs text-slate-400 dark:text-slate-500">
               Developed by Arvin B. Edubas
