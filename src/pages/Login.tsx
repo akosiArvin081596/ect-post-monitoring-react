@@ -66,11 +66,11 @@ export function Login() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-100 px-5 py-10 dark:bg-slate-950 sm:px-6">
-<div className="relative mx-auto flex w-full max-w-md flex-col items-center animate-fade-in-up">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-100 px-4 py-8 dark:bg-slate-950 sm:px-6">
+      <div className="relative mx-auto flex w-full max-w-lg flex-col items-center animate-fade-in-up">
         {/* Logo floating above header */}
-        <div className="relative z-10 mb-[-3rem]">
-          <div className="h-24 w-24 border-4 border-white bg-white shadow-lg dark:border-slate-800 dark:bg-slate-800" style={{ borderRadius: '50%' }}>
+        <div className="relative z-10 mb-[-3.5rem]">
+          <div className="h-28 w-28 border-4 border-white bg-white shadow-lg dark:border-slate-800 dark:bg-slate-800" style={{ borderRadius: '50%' }}>
             <img
               src={logo}
               alt="DSWD Caraga"
@@ -80,8 +80,8 @@ export function Login() {
         </div>
 
         {/* Header */}
-        <div className="w-full bg-gradient-to-r from-blue-600 via-blue-650 to-blue-700 px-6 pb-8 pt-16 text-center shadow-lg dark:from-blue-700 dark:via-blue-750 dark:to-blue-800">
-          <h1 className="text-lg font-extrabold uppercase tracking-[0.2em] text-white sm:text-xl">
+        <div className="w-full bg-gradient-to-r from-blue-600 via-blue-650 to-blue-700 px-6 pb-8 pt-18 text-center shadow-lg dark:from-blue-700 dark:via-blue-750 dark:to-blue-800">
+          <h1 className="text-lg font-extrabold uppercase tracking-[0.2em] text-white sm:text-2xl">
             Emergency Cash Transfer Post Monitoring
           </h1>
           <div className="mx-auto mt-4 h-0.5 w-12 bg-white/30" />
@@ -90,12 +90,12 @@ export function Login() {
         {/* Form card */}
         <form
           onSubmit={handleSubmit}
-          className={`w-full border border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-8 ${shakeError ? 'animate-shake' : ''}`}
+          className={`w-full border border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 ${shakeError ? 'animate-shake' : ''}`}
         >
-          <h2 className="mb-1 text-lg font-semibold text-slate-900 dark:text-white">
+          <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
             Welcome back
           </h2>
-          <p className="mb-6 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mb-7 text-sm text-slate-500 dark:text-slate-400 sm:text-base">
             Sign in to your account to continue
           </p>
 
@@ -117,7 +117,7 @@ export function Login() {
               Email Address
             </label>
             <div className="relative">
-              <span className="pointer-events-none absolute left-0 top-0 flex h-12 w-12 items-center justify-center border-r border-slate-200 text-slate-400 dark:border-slate-700">
+              <span className="pointer-events-none absolute left-0 top-0 flex h-14 w-14 items-center justify-center border-r border-slate-200 text-slate-400 dark:border-slate-700">
                 <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
                   <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
@@ -134,7 +134,7 @@ export function Login() {
                 required
                 autoComplete="email"
                 placeholder="you@example.com"
-                className={`h-12 w-full border bg-slate-50 pl-14 pr-4 text-sm text-slate-900 transition-all focus:bg-white focus:outline-none focus:ring-2 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 sm:text-base ${
+                className={`h-14 w-full border bg-slate-50 pl-16 pr-4 text-sm text-slate-900 transition-all focus:bg-white focus:outline-none focus:ring-2 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 sm:text-base ${
                   fieldErrors.email
                     ? 'border-red-400 focus:border-red-500 focus:ring-red-200 dark:border-red-600 dark:focus:ring-red-800'
                     : 'border-slate-200 focus:border-blue-500 focus:ring-blue-200 dark:border-slate-700 dark:focus:border-blue-400 dark:focus:ring-blue-800'
@@ -160,7 +160,7 @@ export function Login() {
               Password
             </label>
             <div className="relative">
-              <span className="pointer-events-none absolute left-0 top-0 flex h-12 w-12 items-center justify-center border-r border-slate-200 text-slate-400 dark:border-slate-700">
+              <span className="pointer-events-none absolute left-0 top-0 flex h-14 w-14 items-center justify-center border-r border-slate-200 text-slate-400 dark:border-slate-700">
                 <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
                 </svg>
@@ -176,7 +176,7 @@ export function Login() {
                 required
                 autoComplete="current-password"
                 placeholder="Enter your password"
-                className={`h-12 w-full border bg-slate-50 pl-14 pr-12 text-sm text-slate-900 transition-all focus:bg-white focus:outline-none focus:ring-2 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 sm:text-base ${
+                className={`h-14 w-full border bg-slate-50 pl-16 pr-12 text-sm text-slate-900 transition-all focus:bg-white focus:outline-none focus:ring-2 dark:bg-slate-950 dark:text-white dark:focus:bg-slate-900 sm:text-base ${
                   fieldErrors.password
                     ? 'border-red-400 focus:border-red-500 focus:ring-red-200 dark:border-red-600 dark:focus:ring-red-800'
                     : 'border-slate-200 focus:border-blue-500 focus:ring-blue-200 dark:border-slate-700 dark:focus:border-blue-400 dark:focus:ring-blue-800'
@@ -185,7 +185,7 @@ export function Login() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-slate-300"
+                className="absolute right-0 top-0 flex h-14 w-14 items-center justify-center text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-slate-300"
               >
                 {showPassword ? (
                   <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -211,19 +211,19 @@ export function Login() {
           </div>
 
           {/* Remember me & Forgot password */}
-          <div className="mb-7 flex items-center justify-between">
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+          <div className="mb-8 flex items-center justify-between">
+            <label className="flex cursor-pointer items-center gap-2.5 text-sm text-slate-600 dark:text-slate-400 sm:text-base">
               <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600"
+                className="h-5 w-5 border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600"
               />
               Remember me
             </label>
             <Link
               to="/forgot-password"
-              className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+              className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 sm:text-base"
             >
               Forgot password?
             </Link>
@@ -232,7 +232,7 @@ export function Login() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="relative flex w-full items-center justify-center gap-2 bg-blue-600 px-5 py-3.5 text-sm font-semibold uppercase tracking-widest text-white shadow-md transition-all hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 dark:focus:ring-offset-slate-900"
+            className="relative flex w-full items-center justify-center gap-2 bg-blue-600 px-5 py-4 text-base font-semibold uppercase tracking-widest text-white shadow-md transition-all hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 dark:focus:ring-offset-slate-900"
           >
             {isSubmitting && (
               <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
