@@ -90,7 +90,7 @@ export function Login() {
         {/* Form card */}
         <form
           onSubmit={handleSubmit}
-          className={`w-full flex-1 border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 xl:flex-none xl:border ${shakeError ? 'animate-shake' : ''}`}
+          className={`flex w-full flex-1 flex-col border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 xl:flex-none xl:border ${shakeError ? 'animate-shake' : ''}`}
         >
           <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
             Welcome back
@@ -242,18 +242,18 @@ export function Login() {
             )}
             {isSubmitting ? 'Signing in...' : 'Sign In'}
           </button>
-        </form>
 
-        {/* Developer credit */}
-        <div className="w-full bg-white py-6 text-center dark:bg-slate-900 xl:mt-8 xl:bg-transparent xl:py-0 xl:dark:bg-transparent">
-          <div className="mx-auto mb-2 h-px w-16 bg-slate-300 dark:bg-slate-700" />
-          <p className="text-xs text-slate-400 dark:text-slate-500">
-            Developed by Arvin B. Edubas
-          </p>
-          <p className="text-[10px] font-medium uppercase tracking-widest text-slate-400/70 dark:text-slate-600">
-            VSquared Technologies
-          </p>
-        </div>
+          {/* Developer credit */}
+          <div className="mt-auto pt-8 text-center xl:pt-6">
+            <div className="mx-auto mb-2 h-px w-16 bg-slate-300 dark:bg-slate-700" />
+            <p className="text-xs text-slate-400 dark:text-slate-500">
+              Developed by Arvin B. Edubas
+            </p>
+            <p className="text-[10px] font-medium uppercase tracking-widest text-slate-400/70 dark:text-slate-600">
+              VSquared Technologies
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   )
