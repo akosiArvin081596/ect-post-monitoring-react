@@ -66,7 +66,7 @@ export function Login() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-slate-100 dark:bg-slate-950 xl:items-center xl:justify-center xl:px-6 xl:py-8">
+    <div className="relative flex h-screen flex-col overflow-hidden bg-slate-100 dark:bg-slate-950 xl:min-h-screen xl:h-auto xl:items-center xl:justify-center xl:overflow-visible xl:px-6 xl:py-8">
       <div className="relative mx-auto flex w-full flex-col items-center animate-fade-in-up xl:max-w-lg">
         {/* Header with inline logo */}
         <div className="flex w-full flex-col items-center bg-gradient-to-r from-blue-600 via-blue-650 to-blue-700 px-6 py-8 text-center shadow-lg dark:from-blue-700 dark:via-blue-750 dark:to-blue-800">
