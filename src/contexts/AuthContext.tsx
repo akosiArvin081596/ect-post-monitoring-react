@@ -18,7 +18,7 @@ interface AuthContextValue {
   user: User | null
   token: string | null
   isLoading: boolean
-  login: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string, rememberMe?: boolean) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -29,7 +29,7 @@ const TOKEN_KEY = 'ect_auth_token'
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [token, setToken] = useState<string | null>(() =>
-    localStorage.getItem(TOKEN_KEY)
+    localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY)
   )
   const [isLoading, setIsLoading] = useState(true)
 
@@ -57,11 +57,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     fetchUser()
   }, [fetchUser])
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string, rememberMe = false) => {
     const response = await api.post('/v1/login', { email, password })
     const { user: userData, token: authToken } = response.data
 
-    localStorage.setItem(TOKEN_KEY, authToken)
+    if (rememberMe) {
+      localStorage.setItem(TOKEN_KEY, authToken)
+    } else {
+      sessionStorage.setItem(TOKEN_KEY, authToken)
+    }
     setToken(authToken)
     setUser(userData)
   }
@@ -77,6 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } finally {
       localStorage.removeItem(TOKEN_KEY)
+      sessionStorage.removeItem(TOKEN_KEY)
       setToken(null)
       setUser(null)
     }
