@@ -66,11 +66,13 @@ export function Login() {
   }
 
   return (
-    <div className="relative flex h-screen flex-col overflow-hidden bg-slate-100 dark:bg-slate-950 xl:min-h-screen xl:h-auto xl:items-center xl:justify-center xl:overflow-visible xl:px-6 xl:py-8">
-      <div className="relative mx-auto flex w-full flex-col items-center animate-fade-in-up xl:max-w-lg">
+    <div
+      className="fixed inset-0 flex flex-col bg-slate-100 dark:bg-slate-950 xl:static xl:min-h-screen xl:items-center xl:justify-center xl:px-6 xl:py-8"
+    >
+      <div className="flex w-full flex-1 flex-col items-center animate-fade-in-up xl:max-w-lg xl:flex-none">
         {/* Header with inline logo */}
         <div className="flex w-full flex-col items-center bg-gradient-to-r from-blue-600 via-blue-650 to-blue-700 px-6 py-8 text-center shadow-lg dark:from-blue-700 dark:via-blue-750 dark:to-blue-800">
-          <div className="mb-4 h-20 w-20 border-4 border-white/30 bg-white shadow-lg xl:mb-4 xl:h-28 xl:w-28" style={{ borderRadius: '50%' }}>
+          <div className="mb-4 h-20 w-20 border-4 border-white/30 bg-white shadow-lg xl:h-28 xl:w-28" style={{ borderRadius: '50%' }}>
             <img
               src={logo}
               alt="DSWD Caraga"
@@ -86,7 +88,7 @@ export function Login() {
         {/* Form card */}
         <form
           onSubmit={handleSubmit}
-          className={`w-full border-t-0 border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 xl:border ${shakeError ? 'animate-shake' : ''}`}
+          className={`flex w-full flex-1 flex-col bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900 sm:p-10 xl:flex-none xl:border xl:border-t-0 xl:border-slate-200 ${shakeError ? 'animate-shake' : ''}`}
         >
           <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-white sm:text-2xl">
             Welcome back
@@ -240,7 +242,7 @@ export function Login() {
           </button>
 
           {/* Developer credit */}
-          <div className="mt-10 text-center">
+          <div className="mt-auto pt-6 text-center">
             <div className="mx-auto mb-2 h-px w-16 bg-slate-300 dark:bg-slate-700" />
             <p className="text-xs text-slate-400 dark:text-slate-500">
               Developed by Arvin B. Edubas
