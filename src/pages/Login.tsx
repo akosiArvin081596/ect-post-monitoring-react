@@ -67,7 +67,7 @@ export function Login() {
 
   return (
     <div
-      className="fixed inset-0 flex flex-col bg-slate-100 dark:bg-slate-950 xl:static xl:min-h-screen xl:items-center xl:justify-center xl:px-6 xl:py-8"
+      className="flex min-h-dvh flex-col bg-slate-100 dark:bg-slate-950 xl:items-center xl:justify-center xl:px-6 xl:py-8"
     >
       <div className="flex w-full flex-1 flex-col items-center animate-fade-in-up xl:max-w-lg xl:flex-none">
         {/* Header with inline logo */}
