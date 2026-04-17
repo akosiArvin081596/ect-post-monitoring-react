@@ -1,12 +1,20 @@
+import { useEffect, useState } from 'react'
 import { useSurveyWizard } from '../../contexts/SurveyWizardContext'
 import { TextInput } from '../ui/TextInput'
 import { SelectInput } from '../ui/SelectInput'
+import { detectDevice } from '../../lib/device'
 
 const modalityOptions = [
   { value: 'Face-to-face', label: 'Face-to-face' },
   { value: 'Phone', label: 'Phone' },
   { value: 'Video Call', label: 'Video Call' },
   { value: 'Others', label: 'Others (specify)' },
+]
+
+const deviceOptions = [
+  { value: 'Mobile', label: 'Mobile' },
+  { value: 'Tablet', label: 'Tablet' },
+  { value: 'Desktop', label: 'Desktop' },
 ]
 
 export function InterviewerStep() {
@@ -19,6 +27,29 @@ export function InterviewerStep() {
     calculateTotalUtilization,
     calculateVariance,
   } = useSurveyWizard()
+
+  const [isEditingDevice, setIsEditingDevice] = useState(false)
+
+  // Auto-populate surveyor_device and survey_modality on mount if empty.
+  // Detection is pointer + width based, not UA sniffing.
+  // Always face-to-face in this deployment, so modality defaults accordingly.
+  useEffect(() => {
+    const patch: Partial<{
+      surveyorDevice: 'Mobile' | 'Tablet' | 'Desktop'
+      surveyModality: string
+    }> = {}
+    if (!formData.surveyorDevice) {
+      patch.surveyorDevice = detectDevice()
+    }
+    if (!formData.surveyModality) {
+      patch.surveyModality = 'Face-to-face'
+    }
+    if (Object.keys(patch).length > 0) {
+      updateFormData(patch)
+    }
+    // Run once on mount — we intentionally don't want this re-firing later.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const canSubmit =
     formData.interviewedBy &&
@@ -62,6 +93,38 @@ export function InterviewerStep() {
           required
         />
       )}
+
+      {/* Recording device — auto-detected, overrideable */}
+      <div>
+        <label className="mb-2 block text-base font-medium text-gray-700 dark:text-gray-300">
+          Recording Device
+        </label>
+        {isEditingDevice ? (
+          <SelectInput
+            label=""
+            options={deviceOptions}
+            value={formData.surveyorDevice ?? ''}
+            onChange={(v) => {
+              updateFormData({ surveyorDevice: v as 'Mobile' | 'Tablet' | 'Desktop' })
+              setIsEditingDevice(false)
+            }}
+          />
+        ) : (
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-2 border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300">
+              <span className="font-semibold">{formData.surveyorDevice ?? 'Detecting...'}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">(auto-detected)</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsEditingDevice(true)}
+              className="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            >
+              Change
+            </button>
+          </div>
+        )}
+      </div>
 
       <div className="mt-5 border border-gray-200 bg-gray-50 p-4 sm:mt-6 sm:p-5 dark:border-gray-700 dark:bg-gray-800">
         <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">

@@ -58,6 +58,7 @@ export interface SurveyFormData {
   position: string
   surveyModality: string
   modalitySpecify: string
+  surveyorDevice: 'Mobile' | 'Tablet' | 'Desktop' | null
 }
 
 export const initialSurveyFormData: SurveyFormData = {
@@ -107,6 +108,7 @@ export const initialSurveyFormData: SurveyFormData = {
   position: '',
   surveyModality: '',
   modalitySpecify: '',
+  surveyorDevice: null,
 }
 
 export function toSnakeCase(data: SurveyFormData): Record<string, unknown> {
@@ -156,5 +158,6 @@ export function toSnakeCase(data: SurveyFormData): Record<string, unknown> {
     position: data.position,
     survey_modality: data.surveyModality,
     modality_specify: data.modalitySpecify || null,
+    surveyor_device: data.surveyorDevice,
   }
 }

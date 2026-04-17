@@ -76,6 +76,7 @@ interface ApiSurvey {
   position: string | null
   survey_modality: string | null
   modality_specify: string | null
+  surveyor_device: string | null
   uploads?: ApiSurveyUpload[]
   created_at?: string
   updated_at?: string
@@ -218,6 +219,12 @@ function mapApiSurveyToFormData(survey: ApiSurvey): SurveyFormData {
     position: toStringValue(survey.position),
     surveyModality: toStringValue(survey.survey_modality),
     modalitySpecify: toStringValue(survey.modality_specify),
+    surveyorDevice:
+      survey.surveyor_device === 'Mobile' ||
+      survey.surveyor_device === 'Tablet' ||
+      survey.surveyor_device === 'Desktop'
+        ? survey.surveyor_device
+        : null,
   }
 }
 
