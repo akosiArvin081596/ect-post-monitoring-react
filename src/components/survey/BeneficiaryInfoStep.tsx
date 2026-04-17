@@ -1,4 +1,7 @@
+import { useCallback } from 'react'
 import { useSurveyWizard } from '../../contexts/SurveyWizardContext'
+import { api } from '../../lib/api'
+import { AutocompleteInput } from '../ui/AutocompleteInput'
 import { TextInput } from '../ui/TextInput'
 import { DateInput } from '../ui/DateInput'
 import { RadioGroup } from '../ui/RadioGroup'
@@ -53,6 +56,44 @@ export function BeneficiaryInfoStep() {
 
   const today = new Date().toISOString().split('T')[0]
 
+  const fetchBeneficiaries = useCallback(async (query: string) => {
+    try {
+      const response = await api.get('/v1/beneficiaries/search', { params: { q: query } })
+      return response.data
+    } catch {
+      return []
+    }
+  }, [])
+
+  const handleBeneficiarySelect = useCallback(
+    (suggestion: {
+      beneficiary_name: string
+      birthdate: string | null
+      age: number | null
+      sex: string | null
+      beneficiary_classification: string[]
+      household_id_no: string | null
+      demographic_classification: string[]
+      ip_specify: string | null
+      highest_educational_attainment: string | null
+      educational_attainment_specify: string | null
+    }) => {
+      updateFormData({
+        beneficiaryName: suggestion.beneficiary_name,
+        birthdate: suggestion.birthdate || '',
+        age: suggestion.age || 0,
+        sex: suggestion.sex || '',
+        beneficiaryClassification: suggestion.beneficiary_classification || [],
+        householdIdNo: suggestion.household_id_no || '',
+        demographicClassification: suggestion.demographic_classification || [],
+        ipSpecify: suggestion.ip_specify || '',
+        highestEducationalAttainment: suggestion.highest_educational_attainment || '',
+        educationalAttainmentSpecify: suggestion.educational_attainment_specify || '',
+      })
+    },
+    [updateFormData]
+  )
+
   const canProceed =
     formData.beneficiaryName &&
     formData.respondentName &&
@@ -71,10 +112,12 @@ export function BeneficiaryInfoStep() {
         Beneficiary Information
       </h2>
 
-      <TextInput
+      <AutocompleteInput
         label="Name of Beneficiary"
         value={formData.beneficiaryName}
         onChange={(v) => updateFormData({ beneficiaryName: v })}
+        onSelect={handleBeneficiarySelect}
+        fetchSuggestions={fetchBeneficiaries}
         required
       />
 
