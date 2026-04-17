@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useSurveyWizard } from '../../contexts/SurveyWizardContext'
 import { api } from '../../lib/api'
 import { AutocompleteInput } from '../ui/AutocompleteInput'
@@ -66,6 +66,37 @@ export function BeneficiaryInfoStep() {
   const { formData, updateFormData, nextStep, prevStep } = useSurveyWizard()
 
   const today = new Date().toISOString().split('T')[0]
+
+  // When age reaches 60, auto-tick Senior Citizen on both classification lists.
+  // Only adds — never removes — so a deliberate untick by the surveyor sticks.
+  useEffect(() => {
+    if (formData.age < 60) return
+
+    const patch: Partial<{
+      beneficiaryClassification: string[]
+      demographicClassification: string[]
+    }> = {}
+    if (!formData.beneficiaryClassification.includes('Senior Citizen')) {
+      patch.beneficiaryClassification = [
+        ...formData.beneficiaryClassification,
+        'Senior Citizen',
+      ]
+    }
+    if (!formData.demographicClassification.includes('Senior Citizen')) {
+      patch.demographicClassification = [
+        ...formData.demographicClassification,
+        'Senior Citizen',
+      ]
+    }
+    if (Object.keys(patch).length > 0) {
+      updateFormData(patch)
+    }
+  }, [
+    formData.age,
+    formData.beneficiaryClassification,
+    formData.demographicClassification,
+    updateFormData,
+  ])
 
   const fetchBeneficiaries = useCallback(async (query: string) => {
     try {
