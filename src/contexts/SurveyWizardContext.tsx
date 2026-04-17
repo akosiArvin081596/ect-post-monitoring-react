@@ -18,6 +18,7 @@ import {
   getSurvey,
   markSurveyAsPending,
 } from '../lib/surveyStorage'
+import { syncSingleSurvey } from '../lib/sync'
 
 interface SurveyWizardContextValue {
   clientUuid: string
@@ -169,6 +170,19 @@ export function SurveyWizardProvider({ children, existingUuid }: ProviderProps) 
         interviewerSignatureBase64: interviewerSignature,
       })
       await markSurveyAsPending(clientUuid)
+
+      // If online, attempt an immediate push so the survey lands as "Synced"
+      // right after submit. If offline or the push fails (flaky network), the
+      // survey stays "pending" and the background auto-sync will retry.
+      if (navigator.onLine) {
+        try {
+          await syncSingleSurvey(clientUuid)
+        } catch {
+          // Intentionally swallowed — status remains 'pending' or 'error',
+          // next auto-sync cycle will pick it up.
+        }
+      }
+
       // Navigate to survey detail if editing, home if new
       if (existingUuid) {
         navigate(`/survey/${clientUuid}`, { replace: true })
