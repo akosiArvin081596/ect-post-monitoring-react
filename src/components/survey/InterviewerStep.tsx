@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSurveyWizard } from '../../contexts/SurveyWizardContext'
+import { useAuth } from '../../contexts/AuthContext'
 import { TextInput } from '../ui/TextInput'
 import { SelectInput } from '../ui/SelectInput'
 import { detectDevice } from '../../lib/device'
@@ -28,15 +29,21 @@ export function InterviewerStep() {
     calculateVariance,
   } = useSurveyWizard()
 
+  const { user } = useAuth()
   const [isEditingDevice, setIsEditingDevice] = useState(false)
 
-  // Auto-populate surveyor_device and survey_modality on mount if empty.
-  // Detection is pointer + width based, not UA sniffing.
-  // Always face-to-face in this deployment, so modality defaults accordingly.
+  // Auto-populate Interviewer fields on mount (and when `user` first loads):
+  //   - surveyorDevice from device detection (pointer + width)
+  //   - surveyModality defaults to Face-to-face (this deployment is always
+  //     face-to-face; surveyor can override if needed)
+  //   - interviewedBy / position from the logged-in user's profile
+  // Only fills empty fields, so a previously-saved draft or an override stays.
   useEffect(() => {
     const patch: Partial<{
       surveyorDevice: 'Mobile' | 'Tablet' | 'Desktop'
       surveyModality: string
+      interviewedBy: string
+      position: string
     }> = {}
     if (!formData.surveyorDevice) {
       patch.surveyorDevice = detectDevice()
@@ -44,12 +51,17 @@ export function InterviewerStep() {
     if (!formData.surveyModality) {
       patch.surveyModality = 'Face-to-face'
     }
+    if (user && !formData.interviewedBy) {
+      patch.interviewedBy = user.name
+    }
+    if (user && !formData.position) {
+      patch.position = user.position
+    }
     if (Object.keys(patch).length > 0) {
       updateFormData(patch)
     }
-    // Run once on mount — we intentionally don't want this re-firing later.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [user])
 
   const canSubmit =
     formData.interviewedBy &&
