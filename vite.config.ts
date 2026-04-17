@@ -41,8 +41,28 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // HTML deliberately excluded — we want navigation requests to hit the
+        // network so fresh deploys are picked up on the next reload. Hashed
+        // JS/CSS are safe to precache (their filename changes on every build).
+        globPatterns: ['**/*.{js,css,ico,png,svg,woff2}'],
+        skipWaiting: true,
+        clientsClaim: true,
         runtimeCaching: [
+          {
+            // Navigation requests: network first (3s timeout), fall back to
+            // cache for offline. Keeps the app usable in the field without
+            // letting stale HTML trap users on the old bundle.
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'pages-cache',
+              networkTimeoutSeconds: 3,
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days
+              },
+            },
+          },
           {
             urlPattern: /^https?:\/\/.*\/api\//,
             handler: 'NetworkFirst',
