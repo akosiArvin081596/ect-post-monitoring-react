@@ -6,6 +6,8 @@ import {
   getPendingSurveysCount,
   getDraftSurveysCount,
   getSyncedSurveysCount,
+  getErrorSurveysCount,
+  clearAllLocalSurveys,
 } from '../lib/surveyStorage'
 import { syncPendingSurveys, syncServerSurveys } from '../lib/sync'
 import { cacheAddresses, isAddressCacheEmpty } from '../lib/addressCache'
@@ -22,8 +24,12 @@ export function Dashboard() {
   const [pendingCount, setPendingCount] = useState(0)
   const [draftCount, setDraftCount] = useState(0)
   const [syncedCount, setSyncedCount] = useState(0)
+  const [errorCount, setErrorCount] = useState(0)
   const [isSyncing, setIsSyncing] = useState(false)
   const [isLoadingAddresses, setIsLoadingAddresses] = useState(false)
+  const [showClearModal, setShowClearModal] = useState(false)
+  const [isClearing, setIsClearing] = useState(false)
+  const [clearMessage, setClearMessage] = useState<string | null>(null)
 
   const refreshData = async (options?: { includeServer?: boolean }) => {
     if (options?.includeServer && isOnline) {
@@ -33,16 +39,33 @@ export function Dashboard() {
         console.error('Failed to sync server surveys:', error)
       }
     }
-    const [allSurveys, pending, drafts, synced] = await Promise.all([
+    const [allSurveys, pending, drafts, synced, errors] = await Promise.all([
       listAllSurveys(),
       getPendingSurveysCount(),
       getDraftSurveysCount(),
       getSyncedSurveysCount(),
+      getErrorSurveysCount(),
     ])
     setSurveys(allSurveys)
     setPendingCount(pending)
     setDraftCount(drafts)
     setSyncedCount(synced)
+    setErrorCount(errors)
+  }
+
+  const handleClearLocal = async () => {
+    setIsClearing(true)
+    try {
+      await clearAllLocalSurveys()
+      await refreshData()
+      setClearMessage('Local surveys cleared.')
+      setShowClearModal(false)
+    } catch (e) {
+      console.error('Clear failed:', e)
+      setClearMessage('Clear failed. Please try again.')
+    } finally {
+      setIsClearing(false)
+    }
   }
 
   useEffect(() => {
@@ -221,13 +244,106 @@ export function Dashboard() {
           </>
         )}
 
+        {showClearModal && (
+          <div
+            className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 p-4 sm:items-center"
+            role="dialog"
+            aria-modal="true"
+            onClick={() => !isClearing && setShowClearModal(false)}
+          >
+            <div
+              className="w-full max-w-md bg-white p-5 shadow-xl dark:bg-slate-900"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="mb-2 text-lg font-semibold text-slate-900 dark:text-white">
+                Clear local survey data?
+              </h3>
+              <p className="mb-4 text-sm text-slate-600 dark:text-slate-400">
+                This will remove every survey stored on this device:
+              </p>
+              <ul className="mb-4 space-y-1 border border-slate-200 bg-slate-50 p-3 text-sm dark:border-slate-700 dark:bg-slate-800">
+                <li className="flex justify-between">
+                  <span className="text-slate-700 dark:text-slate-300">Synced</span>
+                  <span className="font-semibold text-emerald-700 dark:text-emerald-400">
+                    {syncedCount}
+                  </span>
+                </li>
+                <li className="flex justify-between">
+                  <span className="text-slate-700 dark:text-slate-300">Pending</span>
+                  <span className="font-semibold text-amber-700 dark:text-amber-400">
+                    {pendingCount}
+                  </span>
+                </li>
+                <li className="flex justify-between">
+                  <span className="text-slate-700 dark:text-slate-300">Drafts</span>
+                  <span className="font-semibold text-slate-700 dark:text-slate-300">
+                    {draftCount}
+                  </span>
+                </li>
+                <li className="flex justify-between">
+                  <span className="text-slate-700 dark:text-slate-300">Errors</span>
+                  <span className="font-semibold text-red-700 dark:text-red-400">
+                    {errorCount}
+                  </span>
+                </li>
+              </ul>
+              {(pendingCount + draftCount + errorCount) > 0 && (
+                <div className="mb-4 border-l-4 border-red-500 bg-red-50 p-3 text-sm text-red-800 dark:bg-red-900/30 dark:text-red-200">
+                  <strong>Warning:</strong> {pendingCount + draftCount + errorCount} unsynced{' '}
+                  {pendingCount + draftCount + errorCount === 1 ? 'survey' : 'surveys'} will
+                  be lost permanently.
+                </div>
+              )}
+              <p className="mb-4 text-xs text-slate-500 dark:text-slate-400">
+                Address, barangay, and incident data will be kept — you won&apos;t need to
+                redownload them.
+              </p>
+              <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+                <button
+                  type="button"
+                  onClick={() => setShowClearModal(false)}
+                  disabled={isClearing}
+                  className="border border-slate-300 px-4 py-2 text-base font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleClearLocal}
+                  disabled={isClearing}
+                  className="bg-red-600 px-4 py-2 text-base font-semibold text-white hover:bg-red-700 disabled:opacity-50"
+                >
+                  {isClearing ? 'Clearing…' : 'Clear everything'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'surveys' && (
           <div className="border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
-            <div className="border-b border-slate-200 px-5 py-4 dark:border-slate-800">
+            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 dark:border-slate-800">
               <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                 Recent Surveys
               </h2>
+              {surveys.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setClearMessage(null)
+                    setShowClearModal(true)
+                  }}
+                  className="text-sm font-semibold text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                >
+                  Clear local data
+                </button>
+              )}
             </div>
+            {clearMessage && (
+              <div className="border-b border-slate-200 bg-emerald-50 px-5 py-3 text-sm text-emerald-800 dark:border-slate-800 dark:bg-emerald-900/20 dark:text-emerald-200">
+                {clearMessage}
+              </div>
+            )}
 
             {surveys.length === 0 ? (
               <div className="p-8 text-center text-base text-slate-500 dark:text-slate-400">

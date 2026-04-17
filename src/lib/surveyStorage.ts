@@ -95,6 +95,17 @@ export async function getSyncedSurveysCount(): Promise<number> {
   return db.surveys.where('status').equals('synced').count()
 }
 
+export async function getErrorSurveysCount(): Promise<number> {
+  return db.surveys.where('status').equals('error').count()
+}
+
+export async function clearAllLocalSurveys(): Promise<void> {
+  await db.transaction('rw', [db.surveys, db.syncQueue], async () => {
+    await db.surveys.clear()
+    await db.syncQueue.clear()
+  })
+}
+
 export async function markSurveyAsPending(clientUuid: string): Promise<void> {
   await updateSurvey(clientUuid, { status: 'pending' })
 }
