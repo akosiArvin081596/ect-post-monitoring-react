@@ -89,7 +89,7 @@ export const initialSurveyFormData: SurveyFormData = {
   accuracy: null,
   utilizationType: '',
   amountReceived: 0,
-  dateReceived: '',
+  dateReceived: '2025-12-12',
   expenseFood: 0,
   expenseEducational: 0,
   expenseHouseRental: 0,
