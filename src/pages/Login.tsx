@@ -253,7 +253,7 @@ export function Login() {
           </p>
 
           {/* Developer credit */}
-          <div className="mt-auto pt-6 text-center">
+          <div className="mt-6 text-center">
             <div className="mx-auto mb-2 h-px w-16 bg-slate-300 dark:bg-slate-700" />
             <p className="text-xs text-slate-400 dark:text-slate-500">
               Developed by Arvin B. Edubas
