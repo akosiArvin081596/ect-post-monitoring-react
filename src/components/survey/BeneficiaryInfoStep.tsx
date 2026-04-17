@@ -38,6 +38,17 @@ const demographicOptions = [
   { value: 'None', label: 'None' },
 ]
 
+// Values that mean the same thing across the two classification lists.
+// Keys = Beneficiary Classification values, values = Demographic Classification values.
+// Toggling either side mirrors the mapped counterpart on the other list.
+const classificationSyncMap: Record<string, string> = {
+  IP: 'Indigenous People',
+  'Senior Citizen': 'Senior Citizen',
+}
+const classificationSyncReverse: Record<string, string> = Object.fromEntries(
+  Object.entries(classificationSyncMap).map(([k, v]) => [v, k])
+)
+
 const educationOptions = [
   { value: 'No Formal Education', label: 'No Formal Education' },
   { value: 'Elementary Level', label: 'Elementary Level' },
@@ -64,6 +75,62 @@ export function BeneficiaryInfoStep() {
       return []
     }
   }, [])
+
+  const handleBeneficiaryClassificationChange = useCallback(
+    (next: string[]) => {
+      const prev = formData.beneficiaryClassification
+      const added = next.filter((v) => !prev.includes(v))
+      const removed = prev.filter((v) => !next.includes(v))
+
+      let nextDemographic = [...formData.demographicClassification]
+      for (const v of added) {
+        const mapped = classificationSyncMap[v]
+        if (mapped && !nextDemographic.includes(mapped)) {
+          nextDemographic.push(mapped)
+        }
+      }
+      for (const v of removed) {
+        const mapped = classificationSyncMap[v]
+        if (mapped) {
+          nextDemographic = nextDemographic.filter((x) => x !== mapped)
+        }
+      }
+
+      updateFormData({
+        beneficiaryClassification: next,
+        demographicClassification: nextDemographic,
+      })
+    },
+    [formData.beneficiaryClassification, formData.demographicClassification, updateFormData]
+  )
+
+  const handleDemographicClassificationChange = useCallback(
+    (next: string[]) => {
+      const prev = formData.demographicClassification
+      const added = next.filter((v) => !prev.includes(v))
+      const removed = prev.filter((v) => !next.includes(v))
+
+      let nextBeneficiary = [...formData.beneficiaryClassification]
+      for (const v of added) {
+        const mapped = classificationSyncReverse[v]
+        if (mapped && !nextBeneficiary.includes(mapped)) {
+          nextBeneficiary.push(mapped)
+        }
+      }
+      for (const v of removed) {
+        const mapped = classificationSyncReverse[v]
+        if (mapped) {
+          nextBeneficiary = nextBeneficiary.filter((x) => x !== mapped)
+        }
+      }
+
+      updateFormData({
+        beneficiaryClassification: nextBeneficiary,
+        demographicClassification: next,
+      })
+    },
+    [formData.beneficiaryClassification, formData.demographicClassification, updateFormData]
+  )
 
   const handleBeneficiarySelect = useCallback(
     (suggestion: {
@@ -171,7 +238,7 @@ export function BeneficiaryInfoStep() {
         label="Beneficiary Classification"
         options={beneficiaryClassificationOptions}
         value={formData.beneficiaryClassification}
-        onChange={(v) => updateFormData({ beneficiaryClassification: v })}
+        onChange={handleBeneficiaryClassificationChange}
         required
       />
 
@@ -194,7 +261,7 @@ export function BeneficiaryInfoStep() {
         label="Demographic Classification"
         options={demographicOptions}
         value={formData.demographicClassification}
-        onChange={(v) => updateFormData({ demographicClassification: v })}
+        onChange={handleDemographicClassificationChange}
         required
       />
 
