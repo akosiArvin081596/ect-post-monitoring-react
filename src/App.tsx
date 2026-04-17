@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { NetworkStatus } from './components/NetworkStatus'
 import { Login } from './pages/Login'
+import { Register } from './pages/Register'
 import { ForgotPassword } from './pages/ForgotPassword'
 import { ResetPassword } from './pages/ResetPassword'
 import { Dashboard } from './pages/Dashboard'
@@ -16,6 +17,7 @@ function App() {
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route

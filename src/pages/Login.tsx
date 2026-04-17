@@ -241,6 +241,17 @@ export function Login() {
             {isSubmitting ? 'Signing in...' : 'Sign In'}
           </button>
 
+          {/* Register link */}
+          <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400 sm:text-base">
+            Don't have an account?{' '}
+            <Link
+              to="/register"
+              className="font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+            >
+              Create one
+            </Link>
+          </p>
+
           {/* Developer credit */}
           <div className="mt-auto pt-6 text-center">
             <div className="mx-auto mb-2 h-px w-16 bg-slate-300 dark:bg-slate-700" />

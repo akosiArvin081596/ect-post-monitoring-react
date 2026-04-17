@@ -12,6 +12,9 @@ interface User {
   id: number
   name: string
   email: string
+  role: 'admin' | 'surveyor'
+  position: string
+  contact_no: string
 }
 
 interface AuthContextValue {
@@ -19,6 +22,15 @@ interface AuthContextValue {
   token: string | null
   isLoading: boolean
   login: (email: string, password: string, rememberMe?: boolean) => Promise<void>
+  register: (
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string,
+    position: string,
+    contactNo: string,
+    rememberMe?: boolean
+  ) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -70,6 +82,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(userData)
   }
 
+  const register = async (
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string,
+    position: string,
+    contactNo: string,
+    rememberMe = false
+  ) => {
+    const response = await api.post('/v1/register', {
+      name,
+      email,
+      password,
+      password_confirmation: passwordConfirmation,
+      position,
+      contact_no: contactNo,
+    })
+    const { user: userData, token: authToken } = response.data
+
+    if (rememberMe) {
+      localStorage.setItem(TOKEN_KEY, authToken)
+    } else {
+      sessionStorage.setItem(TOKEN_KEY, authToken)
+    }
+    setToken(authToken)
+    setUser(userData)
+  }
+
   const logout = async () => {
     try {
       if (token) {
@@ -88,7 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, isLoading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   )
