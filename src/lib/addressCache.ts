@@ -1,4 +1,4 @@
-import { db, type CachedAddress } from './db'
+import { db, type CachedAddress, type CachedBarangay } from './db'
 import { api } from './api'
 
 export async function cacheAddresses(): Promise<void> {
@@ -98,4 +98,40 @@ export async function getMunicipalities(
 export async function isAddressCacheEmpty(): Promise<boolean> {
   const count = await db.addresses.count()
   return count === 0
+}
+
+export async function getBarangays(
+  province: string,
+  district: string,
+  municipality: string
+): Promise<string[]> {
+  const cached = await db.barangays
+    .where('[province+district+municipality]')
+    .equals([province, district, municipality])
+    .toArray()
+
+  if (cached.length > 0) {
+    return cached.map((b) => b.barangay).sort()
+  }
+
+  try {
+    const response = await api.get<string[]>('/v1/addresses/barangays', {
+      params: { province, district, municipality },
+    })
+
+    const rows: CachedBarangay[] = response.data.map((barangay) => ({
+      province,
+      district,
+      municipality,
+      barangay,
+    }))
+
+    if (rows.length > 0) {
+      await db.barangays.bulkAdd(rows)
+    }
+
+    return response.data
+  } catch {
+    return []
+  }
 }
